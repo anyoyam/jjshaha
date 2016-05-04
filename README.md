@@ -3,8 +3,8 @@ javascript
 
 ## sub
 ### the
- - [ ] aa
- - [x] bb
+- [ ] aa
+- [x] bb
 
 > 222
 
@@ -15,3 +15,6 @@ javascript
 | 0 | 5 | 6 |
 |---:|:---:|:---|
 |a|吧访问方法|从|
+
+[test](/jjshaha)
+![tupian](/jjshaha "tupiana")
