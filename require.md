@@ -307,6 +307,102 @@ require.config({
 >  4.在foo例子中，exports对应的是一个函数，在函数中的`this`是全局对象，依赖会通过函数的参数传入函数体；
 >  5.使用函数允许在函数中调用例如noConflict之类的类库支持的方法；但无论如何，要注意这些类库仍然是全局对象；
 
-在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)，但同时允许函数允许一次，让类库得到加载；
+在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)做检查，但同时允许函数运行一次，让类库得到加载；
 
-**<a name="enForeceDefine">enforceDefine</a>**
+jQuery或者Backbone的插件作为模块时不需要export任何模块值，shim可以仅配置依赖性的数组；
+
+```javascript
+require.config({
+    shim: {
+        'jquery.scroll': ['jquery'],
+        'backbone.layoutmanger': ['backbone']
+    }
+});
+```
+
+>注：如果你想在ie中抓取到404加载检测，要使用path备选（fallbacks）或错误处理（errbacks），这时exports的值必须为字符串，这样加载器会检测脚本是否真正被加载（init的返回值不能用作enforceDefine的检查）
+
+```javascript
+require.config({
+    shim: {
+        'jquery.scroll': {
+            deps: ['jquery'],
+            exports: 'jQuery.fn.scroll'
+        },
+        'backbone.layoutmanger': {
+            deps: ['backbone'],
+            exports: 'Backbone.LayoutManager'
+        }
+    }
+});
+```
+
+***使用shim的重要注意事项：***
+1. shim仅仅是配置模块之间的依赖关系，不会自动触发代码加载，还是需要require或define触发调用；
+2. 仅使用其他的shim模块作为shim托管代码的依赖项，或者在创建了全局变量之后调用define的符合AMD规范但没有依赖项的类库（例如jQuery），否则，如果你将一个符合AMD规范的模块作为一个shim配置模块的依赖项，生成时，符合AMD规范的模块有可能不会被执行，直到shim脚本执行后才会有效，有可能会差生错误，最终极的解决方法是 升级所有shim托管代码，让其包含可选的AMD define() 调用；
+
+**map** For the given module prefix, instead of loading the module with the given ID, substitute a different module ID. 
+用指定的模块前缀，替换用给出的ID加载模块，代替一个不同的模块id；
+对于不同的模块前缀，加载不同的指定ID的模块，代替区分不同的module ID；
+用于在项目中，两类模块要使用不同版本的模块
+
+```javascript
+require.config({
+    map: {
+        'some/newmodule': {
+            'foo': 'foo1.2'
+        },
+        'some/oldmodule': {
+            'foo': 'foo1.0'
+        }
+    }
+});
+```
+
+目录结构如下：
+
+```
+- foo1.0.js
+- foo1.2.js
+- some/
+    - newmodule.js
+    - oldmodule.js
+```
+
+当`some/newmodule`调用`require('foo')`，它将获得foo1.2.js文件；而`some/oldmodule`调用时会获取foo1.0.js
+
+> map中只能用绝对模块ID，`../some/thing`之类的相对ID是不能工作
+
+**enforceDefine** 如果设置为true，那么在脚本没有被define或者能检查到被包含到一个shim的exports字符串中，则会抛出一个异常；
+
+#requireJS errBacks 异常捕获
+
+```javascript
+require(['jquery','app/index'], function($, index) {
+
+}, function(err) {
+    var failedId = err.requireModules && err.requireModules[0];
+    if (failedId == 'jquery') {
+        requirejs.undef(failedId);  //释放之前加载的jquery资源
+        requirejs.config({
+            paths: {
+                jquery: 'local/jquery'
+            }
+        });
+        require(['jquery'], function($) {});
+    }
+});
+```
+
+#requireJS fallback  资源备选
+
+```javascript
+require.config({
+    enforceDefine: true,
+    'paths': {
+        jquery: ['http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min', 
+        //首先从cdn中加载jquery，如果加载失败则从本地加载
+        'lib/jquery']
+    }
+});
+```
