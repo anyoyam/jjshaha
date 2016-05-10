@@ -302,12 +302,16 @@ require.config({
 ```
 
 >  1.shim 配置的都是不遵循AMD规范的普通脚本，并且这些脚本没有被define执行，如果脚本符合AMD规范，shim将失效，exports和init的配置不会被触发，deps配置在这些情况下也会比较混乱；
+>  
 >  2.依赖脚本必须先加载完毕然后在加载主脚本；
+>  
 >  3.一次加载完毕后，就可以使用全局变脸来作为模块的值了，如上例中的Backbone
+>  
 >  4.在foo例子中，exports对应的是一个函数，在函数中的`this`是全局对象，依赖会通过函数的参数传入函数体；
+>  
 >  5.使用函数允许在函数中调用例如noConflict之类的类库支持的方法；但无论如何，要注意这些类库仍然是全局对象；
 
-在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)做检查，但同时允许函数运行一次，让类库得到加载；
+在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)做检查，但同时函数运行，让类库加载后初始化；
 
 jQuery或者Backbone的插件作为模块时不需要export任何模块值，shim可以仅配置依赖性的数组；
 
