@@ -250,4 +250,63 @@ requireJS等待所有的依赖加载完毕后，计算出模块定义函数正�
 
 #配置说明
 
+```javascript
+require.config({
+    baseUrl: "asset/js",
+    paths: {
+        "comp": "components/v0.1",
+        "tool": "tookit/v0.1",
+    },
+    waitSeconds: 15
+});
 
+require(["comp/tabs", "jquery.js"], function(tabs) {
+
+});
+```
+
+**baseUrl**所有模块的查找根路径；上例中`comp/tabs`所对应的js文件路径为`asset/js/components/v0.1/tabs.js`；以**.js结尾**，**/开头**或者**包含协议**，将不会使用baseUrl；因此jquery.js将在html页面同目录下加载；
+
+如果没有显式设置baseUrl，默认值为引入require.js的html文件所处的位置；如果用了`data-main`，则该路径就变为baseUrl；
+
+baseUrl可以跟require.js页面在不同域下，requireJS脚本加载可以跨域；唯一限制是使用`text!plugins`加载文本内容，文本内容路径应该与页面同域；
+
+**paths**用来映射那些不直接放置在baseUrl下的模块，方便码字数量；设置的path是相对于baseUrl的，除非path**以/开头**或者**包含协议**；上例中`comp/tabs`；
+
+**shim**用来为没有使用define来定义之间依赖关系、设置为浏览器全局变量的脚本做依赖和导出配置；
+
+```javascript
+require.config({
+    shim: {
+        'backbone': {
+            deps: ["underscore", 'jquery'],
+            exports: 'Backbone'
+        },
+        'underscore': {
+            exports: '_'
+        },
+        'foo': {
+            deps: ['bar'],
+            //requireJS 2.0.*
+            //exports: function(bar) {
+            //    return this.Foo.noConflict();
+            //} 
+            //requireJS 2.1.0+
+            exports: 'Foo',
+            init: function(bar) {
+                return this.Foo.noConflict();
+            }
+        }
+    }
+});
+```
+
+>  1.shim 配置的都是不遵循AMD规范的普通脚本，并且这些脚本没有被define执行，如果脚本符合AMD规范，shim将失效，exports和init的配置不会被触发，deps配置在这些情况下也会比较混乱；
+>  2.依赖脚本必须先加载完毕然后在加载主脚本；
+>  3.一次加载完毕后，就可以使用全局变脸来作为模块的值了，如上例中的Backbone
+>  4.在foo例子中，exports对应的是一个函数，在函数中的`this`是全局对象，依赖会通过函数的参数传入函数体；
+>  5.使用函数允许在函数中调用例如noConflict之类的类库支持的方法；但无论如何，要注意这些类库仍然是全局对象；
+
+在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)，但同时允许函数允许一次，让类库得到加载；
+
+**<a name="enForeceDefine">enforceDefine</a>**
