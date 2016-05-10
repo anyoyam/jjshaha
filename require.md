@@ -311,7 +311,7 @@ require.config({
 >  
 >  5.使用函数允许在函数中调用例如noConflict之类的类库支持的方法；但无论如何，要注意这些类库仍然是全局对象；
 
-在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)做检查，但同时函数运行，让类库加载后初始化；
+在requireJS2.0.*中，exports属性可以用一个函数代替字符串，这种情况下，和上面例子中的init属性有相同的作用；init这种形式被用在requireJS2.1.0+的版本，这样exports对应的字符串值可以被用作[enforeceDefine](#enforceDefine)做检查，但同时类库一加载函数工作立即初始化；
 
 jQuery或者Backbone的插件作为模块时不需要export任何模块值，shim可以仅配置依赖性的数组；
 
