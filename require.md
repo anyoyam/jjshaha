@@ -41,13 +41,13 @@ index.html
 app.js
 
 ```javascript
-requriejs.config({
+requrie.config({
     baseUrl: 'js/lib',
     paths: {
         app: '../app'
     }
 });
-requirejs(['jquery', 'main', 'app/index'], 
+require(['jquery', 'main', 'app/index'], 
 function($, main, index) {
     $(document).ready(function() {
         //main...
@@ -162,7 +162,7 @@ define("compon/test", ['action/cart', 'action/index'], function(ct, idx) {
 });
 ```
 
-### 注意事项
+## 其他说明
 
 **一个文件一个模块** 由于requireJS是基于*模块名 - 到 - 文件路径+文件*查找的机制，所以一般每个js文件仅定义一个模块；自动化工具会自己组织优化并自动带命名的模块；
 
@@ -181,3 +181,73 @@ define(function(require) {
     var som2 = require('action/some2');
 });
 ```
+
+这种方法对于在某个目录下创建一些模块后，在模块之间可以互相访问，无需知道目录名称，方便共享给其他人或者项目使用；
+
+**生成相对于模块的url地址**
+
+```javascript
+    define(["require"], function(require) {
+        var curl = require.toUrl("./curl.js");
+    });
+```
+
+**直接调用模块方法**
+
+对于已经通过`require(["module/name"], function(){})`加载过的模块，可以直接使用模块名作为`require`的字符串参数来直接获取调用；
+
+```javascript
+    require(["app/index"], function(index) {
+        return {
+            "sum": function(a, b) {
+                return a+b;
+            }
+        };
+    });
+    //.............
+    require("app/index").sum(1, 2);
+```
+
+> 注：这种形式只能在`module/name`已经异步形式的`require(["module/name"], function() {})`加载后才能有效；在define内部只能使用类似`./module/name`的相对路径形式
+
+##循环依赖
+
+如果定义两个模块A and B，它们互相依赖着，A依赖B，而B又依赖A，那么当B模块函数被调用时，它将会得到一个`undefined`的A；B可以在模块中使用`require`方法再获取A；
+
+```javascript
+    //A.js
+    define(['require', 'B'], function(require, b) {
+        //.....
+        var v = require("B").callSomeFunction();
+        return {};
+    });
+    //B.js
+    define(['require', 'A'], function(require, a) {
+        //....
+        var v = require("A").callSomeFunction();
+        return {};
+    });
+```
+
+##JSONP依赖
+
+在requireJS中使用JSON服务，需要将callback参数指定为`define`；
+
+```javascript
+require(["http://example.com/api/getjson?callback=define"], function(data) {
+    console.log(data);
+});
+```
+
+**callback**为define就是让api将JSON数据包包裹到一个define中，定义一个模块；
+
+> 仅支持返回值类型为JSON Object的JSONP服务，返回数组，字符串，数字等其他类型都不支持。
+
+#机制
+
+requireJS是使用`head.appendChild()`来将每个依赖加载为一个script标签；
+requireJS等待所有的依赖加载完毕后，计算出模块定义函数正确的调用顺序，然后依次调用函数；
+
+#配置说明
+
+
