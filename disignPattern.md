@@ -225,3 +225,88 @@ testModule.resetCounter();
 ```
 
 其他部分的代码是不可以直接读取incermentCounter或resetCounter的值；变量counter完全从全局变量中分离出来，仅作为一个私有变量 - 它的生命周期仅存在模块的闭包中，所以只有定义的两个方法可以访问它；方法也存在有效的命名空间在代码的测试区域，我们需要在访问前面添加模块的名称来访问方法；
+
+使用模块模式，我们发现在开始定义一个简单的模板是很有用的，它包括命名空间，公有和私有变量：
+
+```javascript
+var myNameSpace = (function() {
+    var myPrivateVar, myPrivateMethod;
+    //一个私有计数器变量
+    myPrivateVar = 0;
+    //一个输出任何参数的私有方法
+    myPrivateMethod = function(foo) {
+        console.log(foo);
+    }
+
+    return {
+        //公有变量
+        myPublicVar: "foo",
+        //调用私有元素的公有方法
+        myPublicFunction: function(bar) {
+            //私有变量自增
+            myPrivateVar++;
+            //调用私有方法
+            myPrivateMethod(bar);
+        }
+    };
+})();
+```
+
+下面的例子是使用模块模式实现一个购物篮，模块本身通过一个自包含返回到一个全局变量`basketModule`，模块中的数组`basket`保持私有而且应用其他的部分也不能直接读取它，它只存在于当前模块的闭包中，所以可以访问的的方法都是和它在同一个作用域范围。（例如：`addItem()`，`getItemCount`等）
+
+```javascript
+var basketModule = (function() {
+    var basket = [];
+    function doSomethingPrivate() {
+
+    }
+    function doSomethingElsePrivate() {
+
+    }
+    //返回一个暴露的(exposed)共有对象
+    return {
+        //添加商品到篮子
+        addItem: function(values) {
+            basket.push(values);
+        },
+        //获取篮子中商品数量
+        getItemCount: function() {
+            return basket.length;
+        },
+        //执行私有方法 私有方法的公有别名
+        doSomething: doSomethingPrivate,
+        //获取篮子中商品总价
+        getTotal: function() {
+            var q = this.getItemCount(), p = 0;
+            while(q--) {
+                p += basket[q].price;
+            }
+            return p;
+        }
+    }
+});
+```
+
+在模块内部，我们注意到返回了一个对象，它自动分配(assign)给了`basketModule`，所以我们可以如下操作(interact 互动，相互作用)；
+
+```javascript
+basketModule.addItem({item: "bread", price: 0.5});
+basketModule.addItem({item: "butter", price: 0.3});
+
+console.log(basketModule.getItemCount());
+console.log(basketModule.getTotal());
+//undefined
+//因为basket本身没有暴露(expose)到公有API的部分
+console.log(basketModule.basket);
+//undefined
+//同样不能工作，因为basket本身仅存在于我们定义的baseModule闭包(closure)中，不在返回的公有对象中
+console.log(basket);
+```
+
+上面的方法的有效命名空间都在 `basketModule` 内。
+
+Notice how the scoping function in the above basket module is wrapped around all of our functions, which we then call and immediately store the return value of.
+注意，上面购物篮模块中域函数时如何封装我们所有的方法，然后我们如何调用，并且立即存储返回值的；这里有以下几个特点包括：
+
+- 很灵活的去定义只有我们的方法可以调用的私有方法和私有成员。因为他们没有暴露给页面的其他部分（只有我们导出的API是），它们是真的私有成员；
+- 给出的方法是被正常定义的并且命名的，这样很容易在调试时看到访问堆栈，可以发现是哪个方法抛出异常
