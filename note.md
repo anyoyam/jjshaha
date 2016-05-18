@@ -507,9 +507,151 @@ for (let o of 'foo') {
 // 'o'
 // 'o'
 ```
-- `.charAt()` 不能识别大于**oxffff**的字符，提供`.at()`；这个方法是通过[垫片库](https://github.com/es-shims/String.prototype.at)实现的
-- `.normalize()`
+- `.charAt()` 不能识别大于`0xffff`的字符，提供`.at()`；这个方法是通过[垫片库](https://github.com/es-shims/String.prototype.at)实现的
+- `.normalize()` 用来将字符的不同表示方法统一为同样的形式，称之为Unicode正规化
 - `.includes()`，`.startsWith()`，`.endsWith()` 
-- `.repeat()` 
-- `.padStart()`, `.padEnd()` 
-- 11
+    - `.includes()` 是否找到参数字符串 boolean
+    - `startsWith()` 参数字符串是否在源字符串的头部 boolean
+    - `endsWith()` 参数字符串是否在源字符串的尾部 boolean
+    - 这三个方法都支持第二个参数，表示开始搜索的位置。
+
+    ```javascript
+        var s = 'Hello World';
+        s.startsWith("Hello");  //true
+        s.endsWith("!"); //true
+        s.includes("o"); //true
+
+        s.startsWith('world', 6); //true
+        s.endsWith('Hello', 5); //true 在endsWith方法中第二个个参数相当于将字符串截取的个数，然后在截取的字符串的结尾找参数字符串；
+        s.includes('Hello', 6); //false
+    ```
+
+- `.repeat()` 返回一个将源字符串重复n次的新字符串
+- `.padStart()`, `.padEnd()` ES7推出字符串补全长度方法。
+    - 接受两个参数，第一个用来指定字符串的最小长度，第二个是用来补全的字符串。
+    - 如果源字符串的长度，等于或大于指定的最小长度，则返回源字符串；
+    - 如果省略第二个参数，会用空格补全长度
+- **模板字符串** 增强版的字符串，用反引号 `` ` ``标识。可作普通字符串，也可以定义多行字符串或者嵌入变量。
+    - 在模板字符串中如需要使用反引号 `` ` ``则需要在前面加反斜杠转义。
+    - 所有空格和缩进都会被保留输出。
+    - 嵌入变量需要将变量名写在`${}`之中。
+    - `${}`的大括号中可以放入任意的Javascript表达式，可以进行运算，也可以引入对象属性，还可以调用函数，如果里面的值不是字符串，则按照一般规则转为字符串，例如是一个对象，将默认调用对象的`toString`方法
+    ```javascript
+    let x = 1, y = 2;
+    `${x} + ${y} = ${x + y}`  // 1 + 2 = 3
+    `${x} + ${y * 2} = ${x + y * 2}`  // 1 + 4 = 5
+
+    var obj = {x: 1, y: 2};
+    `${obj.x + obj.y}`  // 3
+
+    function fn() {
+        return "Hello world!";
+    }
+    `foo ${fn()} bar` // foo Hello world bar
+    `Hello ${'world'}`  //里面是一个字符串，则直接输出字符串
+
+    let a = (name) => `Hello, ${name}`;
+    a("Yam");
+    ```
+- **标签模板** 将模板作为函数的参数，调用函数 `` say`Hello, ${user.name}.` `` 相当于 `say(['Hello, ', '.'], user.name)` 
+    - 第一个参数是不包含变量的字符串数组
+    - 其他参数是模板字符串中的变量
+    - 第一个参数中有一个`raw`属性，是一个数组，元素和第一个参数完全一致，唯一的区别是raw中的字符串是被转义了的，比如 `["line 1 \n line 2"]`，而raw中将会是 `["line 1 \\n line 2"]`
+    - ☺
+    ```javascript
+        let user = {name: 'Yam', age: 13};
+        function say(a, ...b) {  //采用rest参数写法
+            let out = '';
+            for (var i = 0; i < b.length ; i++) {
+                out += a[i] + b[i];
+            }
+            out += a[i]
+            return out;
+        }
+        let msg = say`Hello, ${user.name}'s age is ${user.age}.`;
+        //相当于调用方法 say(["Hello, ", "'s age is ", "."], user.name, user.age);
+        console.log(msg); // Hello, Yam's age is 13.
+    ```
+- `String.raw()` 用来充当模板字符串的处理函数，返回一个斜杠都被转义的字符串，对应于替换变量后的模板字符串。
+    - 如果源字符串的斜杠已经转义，那么`String.raw()`不会做任何处理
+    - 可以作为处理模板字符串的基本方法
+    - 也可以作为正常函数使用，*注：它第一个参数应该是一个具有`raw`属性的对象，raw属性的值是一个**数组***
+    ```javascript
+    String.raw`Hi\n${2+3}`; //Hi\\n5!
+    String.raw`Hi\u000A!`; //Hi\\u000A!
+
+    String.raw`Hi\\n123`; //Hi\\n123
+
+    String.raw({raw: 'test'}, 0, 1, 2); //t0e1s2t
+    // ==
+    String.raw({raw: ['t', 'e', 's', 't'], 0, 1, 2}); //t0e1s2t
+    ```
+
+# 正则表达式扩展
+
+- RegExp构造函数
+    + ES5中构造函数有两种情况
+        * `var regex = new RegExp('xyz', 'i');` 第一个参数是字符串，第二个是正则表达式修饰符，等价于 `var regex = /xyz/i;`
+        * `var regex = new RegExp(/xyz/i);` 参数是一个正则表达式，返回原有正则表达式的拷贝
+        **此时ES5中不允许使用第二个参数，不能添加修饰符，会报错**
+    + 在**ES6**中，如果RegExp构造函数第一个参数是一个正则表达式，那么可以使用第二个参数指定修饰符，用来重写修饰符
+        * `var regex = new RegExp(/xyz/ig, 'i').flag; // "i"` 修饰符`ig`，会被第二个参数`i`覆盖；
+- 字符串的正则方法
+    + 字符串对象可以使用正则方法：`match()`，`replace()`，`search()`，`split()`，在ES6中将这4个方法在语言内部全部调用RegExp的实例方法，做到与正则相关方法，全部定义在RegExp对象上。
+- `u` 修饰符 
+    ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字符。
+    ```javascript
+        //'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
+        /^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
+        /^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
+    ```
+    + 点字符 
+        表示任意单字符，对于大于`0xffff`的Unicode字符，必须加上`u`修饰符；
+        ```javascript
+        var s = '𠮷';
+        /^.$/.test(s) // false
+        /^.$/u.test(s) // true
+        ```
+    + Unicode字符表示法 
+        ES6增加使用`{}`来表示Unicode字符，这种正则表达式必须加上`u`修饰符
+        ```javascript
+        /\u{61}/.test('a') // false 不加u无法识别\u{61}这种表示方法，会匹配连续61个u
+        /\u{61}/u.test('a') // true
+        /\u{20BB7}/u.test('𠮷') // true
+        ```
+    + 量词
+        使用`u`修饰符后，所有量词都会正确识别大于`0xffff`的Unicode字符。
+        ```javascript
+        /a{2}/.test('aa') // true
+        /a{2}/u.test('aa') // true
+        /𠮷{2}/.test('𠮷𠮷') // false
+        /𠮷{2}/u.test('𠮷𠮷') // true
+        ```
+    + 预定义模式
+        u修饰符也会影响预定义模式，会正确识别大于`0xffff`的Unicode字符。
+        ```javascript
+        /^\S$/.test('𠮷') // false
+        /^\S$/u.test('𠮷') // true
+        ```
+        `\S` 会匹配所有不是空格的字符，加了`u`修饰符就能匹配四字节的unicode字符；
+    + `i` 修饰符
+- `y` 修饰符
+    + “粘连”修饰符，`y`修饰符作用与`g`修饰符类似，也是全局匹配；后一次匹配都从上一次匹配成功的下一个位置开始。不同之处在于`g`修饰符只要剩余位置中存在匹配就可，而`y`修饰符要确保匹配必须从剩余的第一个位置开始；
+    + 也就是说`y`修饰符隐含头部匹配标志`^` 
+    ```javascript
+    let s = 'aaa_aa_a';
+    var r1 = /a+/g;
+    var r2 = /a+/y;
+
+    r1.exec(s) // ["aaa"]
+    r2.exec(s) // ["aaa"]
+
+    r1.exec(s) // ["aa"]
+    r2.exec(s) // null     //相当于要在 _aa_a 中匹配 /^a+/
+    ```
+- **sticky** 属性
+    与`y` 修饰符相匹配，ES6的正则对象多了一个`sticky`属性，表示是否设置了`y`修饰符
+- **flags** 属性 返回正则表达式的修饰符。
+- `RegExp.escape()`
+- 后行断言
+
