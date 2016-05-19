@@ -605,7 +605,7 @@ ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字
 /^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
 /^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
 ```
-
+----
     + 点字符 
     表示任意单字符，对于大于`0xffff`的Unicode字符，必须加上`u`修饰符；
     ```javascript
