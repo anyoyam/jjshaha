@@ -667,82 +667,82 @@ for (let o of 'foo') {
     Number('0o10'); //8
     ```
 - Number.isFinite(), Number.isNaN()
-    `Number.isFinite()`判断一个数值是否非无穷（infinite）
-    ```javascript
-    Number.isFinite(15); // true
-    Number.isFinite(0.8); // true
-    Number.isFinite(NaN); // false
-    Number.isFinite(Infinity); // false
-    Number.isFinite(-Infinity); // false
-    Number.isFinite('foo'); // false
-    Number.isFinite('15'); // false
-    Number.isFinite(true); // false
-    ```
-    `Number.isNaN()`判断一个值是否为NaN
-    ```javascript
-    Number.isNaN(NaN) // true
-    Number.isNaN(15) // false
-    Number.isNaN('15') // false
-    Number.isNaN(true) // false
-    Number.isNaN(9/NaN) // true
-    Number.isNaN('true'/0) // true
-    Number.isNaN('true'/'true') // true
-    ```
-    ES5这样部署：
-    ```javascript
-    //ES5中扩充Number.isFinite方法
-    (function(global) {
-        var g_isFinite = global.isFinite();
-        Object.defineProperty(Number, 'isFinite', {
-            value: function(value) {
-                return typeof value === 'number' && global_isFinite(value);
-            },
-            configurable: true,
-            enumerable: false,
-            writable: true
-        });
-    })(this);
-    //ES5中扩充Number.isNaN方法
-    (function(g) {
-        var g_isNaN = g.isNaN();
-        Object.defineProperty(Number, 'isNaN', {
-            value: function(value) {
-                return typeof value === 'number' && g_isNaN(value);
-            },
-            configurable: true,
-            enumerable: false,
-            writable: true
-        });
-    })(this);
-    ```
-    **它们与传统的全局方法区别在于，传统方法先调用Number()将非数值转为数值，再判断，而这两个方法只对数值有效，非数值一律返回`false`**
+`Number.isFinite()`判断一个数值是否非无穷（infinite）
+```javascript
+Number.isFinite(15); // true
+Number.isFinite(0.8); // true
+Number.isFinite(NaN); // false
+Number.isFinite(Infinity); // false
+Number.isFinite(-Infinity); // false
+Number.isFinite('foo'); // false
+Number.isFinite('15'); // false
+Number.isFinite(true); // false
+```
+`Number.isNaN()`判断一个值是否为NaN
+```javascript
+Number.isNaN(NaN) // true
+Number.isNaN(15) // false
+Number.isNaN('15') // false
+Number.isNaN(true) // false
+Number.isNaN(9/NaN) // true
+Number.isNaN('true'/0) // true
+Number.isNaN('true'/'true') // true
+```
+ES5这样部署：
+```javascript
+//ES5中扩充Number.isFinite方法
+(function(global) {
+    var g_isFinite = global.isFinite();
+    Object.defineProperty(Number, 'isFinite', {
+        value: function(value) {
+            return typeof value === 'number' && global_isFinite(value);
+        },
+        configurable: true,
+        enumerable: false,
+        writable: true
+    });
+})(this);
+//ES5中扩充Number.isNaN方法
+(function(g) {
+    var g_isNaN = g.isNaN();
+    Object.defineProperty(Number, 'isNaN', {
+        value: function(value) {
+            return typeof value === 'number' && g_isNaN(value);
+        },
+        configurable: true,
+        enumerable: false,
+        writable: true
+    });
+})(this);
+```
+**它们与传统的全局方法区别在于，传统方法先调用Number()将非数值转为数值，再判断，而这两个方法只对数值有效，非数值一律返回`false`**
 - Number.parseInt(), Number.parseFloat()
-    ES6将全局方法`parseInt()`和`parseFloat()`移植到Number对象上，行为保持不变，目的是减少全局性方法，使语言模块化
+ES6将全局方法`parseInt()`和`parseFloat()`移植到Number对象上，行为保持不变，目的是减少全局性方法，使语言模块化
 - Number.isInteger()
-    用来判断一个值是否为整数，在javascript内部，整数和浮点数是同样的存储方法，所以**3**和**3.0**被视为同一个值
-    ```javascript
-    Number.isInteger(20); //true
-    Number.isInteger(20.0); //true
-    Number.isInteger(20.1); //false
-    Number.isInteger('20'); //false
-    Number.isInteger(true); //false
+用来判断一个值是否为整数，在javascript内部，整数和浮点数是同样的存储方法，所以**3**和**3.0**被视为同一个值
+```javascript
+Number.isInteger(20); //true
+Number.isInteger(20.0); //true
+Number.isInteger(20.1); //false
+Number.isInteger('20'); //false
+Number.isInteger(true); //false
 
-    //在ES5中这样部署
-    (function(g) {
-        var floor = Math.floor,
-            isFinite = g.isFinite;
-        Object.defineProperty(Number, 'isInteger', {
-            value: function(value) {
-                return typeof value === 'number' && isFinite(value) &&
-                    value > -9007199254740992 && value < 9007199254740992 &&
-                    floor(value) === value;
-            },
-            configurable: true,
-            enumerable: false,
-            writable: true
-        });
-    })(this);
-    ```
+//在ES5中这样部署
+(function(g) {
+    var floor = Math.floor,
+        isFinite = g.isFinite;
+    Object.defineProperty(Number, 'isInteger', {
+        value: function(value) {
+            return typeof value === 'number' && isFinite(value) &&
+                value > -9007199254740992 && value < 9007199254740992 &&
+                floor(value) === value;
+        },
+        configurable: true,
+        enumerable: false,
+        writable: true
+    });
+})(this);
+```
 - Number.EPSILON
 - 安全整数和Number.isSafeInteger()
 - Math对象的扩展
