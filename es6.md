@@ -599,12 +599,12 @@ for (let o of 'foo') {
 - 字符串的正则方法
     + 字符串对象可以使用正则方法：`match()`，`replace()`，`search()`，`split()`，在ES6中将这4个方法在语言内部全部调用RegExp的实例方法，做到与正则相关方法，全部定义在RegExp对象上。
 - `u` 修饰符 
-    ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字符。
-    ```javascript
-    //'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
-    /^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
-    /^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
-    ```
+ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字符。
+```javascript
+//'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
+/^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
+/^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
+```
     + 点字符 
     表示任意单字符，对于大于`0xffff`的Unicode字符，必须加上`u`修饰符；
     ```javascript
