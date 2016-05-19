@@ -516,14 +516,14 @@ for (let o of 'foo') {
     - 这三个方法都支持第二个参数，表示开始搜索的位置。
 
     ```javascript
-        var s = 'Hello World';
-        s.startsWith("Hello");  //true
-        s.endsWith("!"); //true
-        s.includes("o"); //true
+    var s = 'Hello World';
+    s.startsWith("Hello");  //true
+    s.endsWith("!"); //true
+    s.includes("o"); //true
 
-        s.startsWith('world', 6); //true
-        s.endsWith('Hello', 5); //true 在endsWith方法中第二个个参数相当于将字符串截取的个数，然后在截取的字符串的结尾找参数字符串；
-        s.includes('Hello', 6); //false
+    s.startsWith('world', 6); //true
+    s.endsWith('Hello', 5); //true 在endsWith方法中第二个个参数相当于将字符串截取的个数，然后在截取的字符串的结尾找参数字符串；
+    s.includes('Hello', 6); //false
     ```
 
 - `.repeat()` 返回一个将源字符串重复n次的新字符串
@@ -554,10 +554,10 @@ for (let o of 'foo') {
     a("Yam");
     ```
 - **标签模板** 将模板作为函数的参数，调用函数 `` say`Hello, ${user.name}.` `` 相当于 `say(['Hello, ', '.'], user.name)` 
-    - 第一个参数是不包含变量的字符串数组
-    - 其他参数是模板字符串中的变量
-    - 第一个参数中有一个`raw`属性，是一个数组，元素和第一个参数完全一致，唯一的区别是raw中的字符串是被转义了的，比如 `["line 1 \n line 2"]`，而raw中将会是 `["line 1 \\n line 2"]`
-    - ☺
+    + 第一个参数是不包含变量的字符串数组
+    + 其他参数是模板字符串中的变量
+    + 第一个参数中有一个`raw`属性，是一个数组，元素和第一个参数完全一致，唯一的区别是raw中的字符串是被转义了的，比如 `["line 1 \n line 2"]`，而raw中将会是 `["line 1 \\n line 2"]`
+    + ☺
     ```javascript
         let user = {name: 'Yam', age: 13};
         function say(a, ...b) {  //采用rest参数写法
@@ -573,9 +573,9 @@ for (let o of 'foo') {
         console.log(msg); // Hello, Yam's age is 13.
     ```
 - `String.raw()` 用来充当模板字符串的处理函数，返回一个斜杠都被转义的字符串，对应于替换变量后的模板字符串。
-    - 如果源字符串的斜杠已经转义，那么`String.raw()`不会做任何处理
-    - 可以作为处理模板字符串的基本方法
-    - 也可以作为正常函数使用，*注：它第一个参数应该是一个具有`raw`属性的对象，raw属性的值是一个**数组***
+    + 如果源字符串的斜杠已经转义，那么`String.raw()`不会做任何处理
+    + 可以作为处理模板字符串的基本方法
+    + 也可以作为正常函数使用，*注：它第一个参数应该是一个具有`raw`属性的对象，raw属性的值是一个**数组***
     ```javascript
     String.raw`Hi\n${2+3}`; //Hi\\n5!
     String.raw`Hi\u000A!`; //Hi\\u000A!
@@ -601,39 +601,39 @@ for (let o of 'foo') {
 - `u` 修饰符 
     ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字符。
     ```javascript
-        //'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
-        /^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
-        /^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
+    //'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
+    /^\uD83D/u.test('\uD83D\uDC2A');  //false 加上u修饰符，ES6会识别其为一个字符
+    /^\uD83D/.test('\uD83D\uDC2A');  //true ES5 不支持四字节，会将其识别为2个字符
     ```
     + 点字符 
-        表示任意单字符，对于大于`0xffff`的Unicode字符，必须加上`u`修饰符；
-        ```javascript
-        var s = '𠮷';
-        /^.$/.test(s) // false
-        /^.$/u.test(s) // true
-        ```
+    表示任意单字符，对于大于`0xffff`的Unicode字符，必须加上`u`修饰符；
+    ```javascript
+    var s = '𠮷';
+    /^.$/.test(s) // false
+    /^.$/u.test(s) // true
+    ```
     + Unicode字符表示法 
-        ES6增加使用`{}`来表示Unicode字符，这种正则表达式必须加上`u`修饰符
-        ```javascript
-        /\u{61}/.test('a') // false 不加u无法识别\u{61}这种表示方法，会匹配连续61个u
-        /\u{61}/u.test('a') // true
-        /\u{20BB7}/u.test('𠮷') // true
-        ```
+    ES6增加使用`{}`来表示Unicode字符，这种正则表达式必须加上`u`修饰符
+    ```javascript
+    /\u{61}/.test('a') // false 不加u无法识别\u{61}这种表示方法，会匹配连续61个u
+    /\u{61}/u.test('a') // true
+    /\u{20BB7}/u.test('𠮷') // true
+    ```
     + 量词
-        使用`u`修饰符后，所有量词都会正确识别大于`0xffff`的Unicode字符。
-        ```javascript
-        /a{2}/.test('aa') // true
-        /a{2}/u.test('aa') // true
-        /𠮷{2}/.test('𠮷𠮷') // false
-        /𠮷{2}/u.test('𠮷𠮷') // true
-        ```
+    使用`u`修饰符后，所有量词都会正确识别大于`0xffff`的Unicode字符。
+    ```javascript
+    /a{2}/.test('aa') // true
+    /a{2}/u.test('aa') // true
+    /𠮷{2}/.test('𠮷𠮷') // false
+    /𠮷{2}/u.test('𠮷𠮷') // true
+    ```
     + 预定义模式
-        u修饰符也会影响预定义模式，会正确识别大于`0xffff`的Unicode字符。
-        ```javascript
-        /^\S$/.test('𠮷') // false
-        /^\S$/u.test('𠮷') // true
-        ```
-        `\S` 会匹配所有不是空格的字符，加了`u`修饰符就能匹配四字节的unicode字符；
+    u修饰符也会影响预定义模式，会正确识别大于`0xffff`的Unicode字符。
+    ```javascript
+    /^\S$/.test('𠮷') // false
+    /^\S$/u.test('𠮷') // true
+    ```
+    `\S` 会匹配所有不是空格的字符，加了`u`修饰符就能匹配四字节的unicode字符；
     + `i` 修饰符
 - `y` 修饰符
     + “粘连”修饰符，`y`修饰符作用与`g`修饰符类似，也是全局匹配；后一次匹配都从上一次匹配成功的下一个位置开始。不同之处在于`g`修饰符只要剩余位置中存在匹配就可，而`y`修饰符要确保匹配必须从剩余的第一个位置开始；
