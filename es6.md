@@ -557,20 +557,19 @@ for (let o of 'foo') {
     + 第一个参数是不包含变量的字符串数组
     + 其他参数是模板字符串中的变量
     + 第一个参数中有一个`raw`属性，是一个数组，元素和第一个参数完全一致，唯一的区别是raw中的字符串是被转义了的，比如 `["line 1 \n line 2"]`，而raw中将会是 `["line 1 \\n line 2"]`
-    + ☺
     ```javascript
-        let user = {name: 'Yam', age: 13};
-        function say(a, ...b) {  //采用rest参数写法
-            let out = '';
-            for (var i = 0; i < b.length ; i++) {
-                out += a[i] + b[i];
-            }
-            out += a[i]
-            return out;
+    let user = {name: 'Yam', age: 13};
+    function say(a, ...b) {  //采用rest参数写法
+        let out = '';
+        for (var i = 0; i < b.length ; i++) {
+            out += a[i] + b[i];
         }
-        let msg = say`Hello, ${user.name}'s age is ${user.age}.`;
-        //相当于调用方法 say(["Hello, ", "'s age is ", "."], user.name, user.age);
-        console.log(msg); // Hello, Yam's age is 13.
+        out += a[i]
+        return out;
+    }
+    let msg = say`Hello, ${user.name}'s age is ${user.age}.`;
+    //相当于调用方法 say(["Hello, ", "'s age is ", "."], user.name, user.age);
+    console.log(msg); // Hello, Yam's age is 13.
     ```
 - `String.raw()` 用来充当模板字符串的处理函数，返回一个斜杠都被转义的字符串，对应于替换变量后的模板字符串。
     + 如果源字符串的斜杠已经转义，那么`String.raw()`不会做任何处理
@@ -598,7 +597,7 @@ for (let o of 'foo') {
         * `var regex = new RegExp(/xyz/ig, 'i').flag; // "i"` 修饰符`ig`，会被第二个参数`i`覆盖；
 - 字符串的正则方法
     + 字符串对象可以使用正则方法：`match()`，`replace()`，`search()`，`split()`，在ES6中将这4个方法在语言内部全部调用RegExp的实例方法，做到与正则相关方法，全部定义在RegExp对象上。
-- `u` 修饰符 
+- `u` 修饰符
 ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字符。
 <pre>
 //'\uD83D\uDC2A' 是一个四字节的UTF-16编码，代表一个字符
@@ -656,6 +655,7 @@ ES6添加u修饰符表示Unicode模式，用来处理大于`0xffff`的Unicode字
 - 后行断言
 
 # 数值的扩展
+[数值 - 扩展学习](http://javascript.ruanyifeng.com/grammar/number.html#section-7)
 - 二进制和八进制表示法
     + ES6二进制和八进制新写法，分别加前缀`0b`（或`0B`）和`0o`（或0o）表示
     + 将包含`0b`和`0x`前缀的字符串转换为十进制，可以使用`Number`方法
@@ -770,23 +770,23 @@ Number.isInteger(true); //false
     Javascript的整数使用32位二进制形式表示，该方法返回一个数的32位无符号正数形式有多少个前导0
         * 对于小数，`Math.clz32`只考虑整数部分
         * 对于空值或其他类型值，先会转为数值，然后计算
-    ```javascript
-    Math.clz32(0) // 32
-    Math.clz32(1) // 31
-    Math.clz32(1000) // 22
-    Math.clz32(0b01000000000000000000000000000000) // 1
-    Math.clz32(0b00100000000000000000000000000000) // 2
-    Math.clz32(1 << 1) // 30
-    Math.clz32(1 << 2) // 29
-    Math.clz32(1 << 29) // 2
+        ```javascript
+        Math.clz32(0) // 32
+        Math.clz32(1) // 31
+        Math.clz32(1000) // 22
+        Math.clz32(0b01000000000000000000000000000000) // 1
+        Math.clz32(0b00100000000000000000000000000000) // 2
+        Math.clz32(1 << 1) // 30
+        Math.clz32(1 << 2) // 29
+        Math.clz32(1 << 29) // 2
 
-    Math.clz32(3.2) // 30
+        Math.clz32(3.2) // 30
 
-    Math.clz32() // 32
-    Math.clz32(NaN) // 32
-    Math.clz32(Infinity) // 32
-    Math.clz32(null) // 32
-    ```
+        Math.clz32() // 32
+        Math.clz32(NaN) // 32
+        Math.clz32(Infinity) // 32
+        Math.clz32(null) // 32
+        ```
     + Math.imul()
     返回两个数以32位带符号整数形式想成的结果，结果也是一个32位带符号的整数
     + Math.fround()
@@ -1048,8 +1048,8 @@ add(...[4, 38]);  // 42
 add(4, 38); //42
 ```
 上面`add(...[4, 38])`都是函数的调用，都是用了扩展运算符。该运算符将一个数组，变成参数序列。
-----
-代替数组的apply方法
+
+- 代替数组的apply方法
 由于扩展运算符可以展开数组，所有不在需要`apply`方法，将数组转换为函数的参数了。
 ```javascript
 function f(x, y, z) {
@@ -1061,20 +1061,369 @@ f.apply(null, args);
 //ES6
 f(...args);
 ```
+
+- ## 扩展运算符的应用
+    + 合并数组
+    ```javascritp
+    let arr1 = ['a', 'b'], arr2 = ['c'], arr3 = ['d', 'e'];
+    //ES5合并数组
+    arr1.concat(arr2, arr3);
+    //ES6
+    [...arr1, ...arr2, ...arr3];
+    ```
+    + 与结构赋值结合
+    ```javascritp
+    let list = ['a', 'b', 'c', 'd'];
+    //ES5
+    let a = list[0], rest = list.slice(1);
+    //ES6
+    [a, ...rest] = list;
+    ```
+    + 函数的返回值
+    ```javascript
+    var dateFields = readDateFields(database);
+    var d = new Date(...dateFields);
+    ```
+    + 字符串
+    可以将字符串转为真正的数组
+    ```javascritp
+    [...'hello']; //['h', 'e', 'l', 'l', 'o']
+    ```
+    + 实现了Iterator接口的对象
+    任何实现Iterator接口的对象，都可以使用扩展运算符转为真正的数组。
+    ```javascript
+    var nodeList = document.querySelectorAll('div');
+    var array = [...nodeList];
+    ```
+    对于没有部署Iterator接口的类似数组的对象，扩展运算符无法将其转为真正的数组。
+    ```javascript
+    let arrayLike = {
+        '0': 'a',
+        '1': 'b',
+        '2': 'c',
+        length: 3
+    };
+    let arr = [...arrayLike];  // TypeError:
+    ```
+    `arrayLike`是一个类似数组的对象，但没有部署Iterator接口，扩展运算符就会报错。这是可以使用`Array.from`方法将其转为真正的数组。
+    + Map和Set解构，Generator函数
+    扩展运算符是调用数据结构的Iterator接口，所以只要有Iterator接口的对象都可以使用扩展运算符。
+    ```javascript
+    let map = new Map([
+        [1, 'one'],
+        [2, 'two'],
+        [3, 'three'],
+    ]);
+    let arr = [...map.keys()]; //[1, 2, 3]
+    ```
+    Generator函数运行后，返回一个遍历器对象，所以也可以使用扩展运算符
+    ```javascript
+    var go = function*() {
+        yield 1;
+        yield 2;
+        yield 3;
+    };
+    [...go()]; //[1, 2, 3]
+    ```
 - name属性
+返回该函数的函数名。
+早被浏览器广泛支持，但知道ES6，才被写入标准。
+**注意：**在ES6中，如果一个匿名函数赋值给一个变量，ES5的`name`属性，会返回空字符串，而ES6的`name`属性恢返回实际的函数名。
+```javascript
+var func1 = function () {};
+//ES5
+func1.name; // ""
+//ES6
+func1.name; // "func1"
+```
+如果一个具名函数赋值给一个变量，则ES5和ES6的`name`属性都返回这个具名函数本来的名字。
+```javascript
+const bar = function baz() {};
+//ES5
+bar.name; // "baz"
+//ES6
+bar.name; //"baz"
+//ES6
+```
+`Function`构造函数返回的函数实例，`name`属性的值为“anonymous”
+```javascript
+(new Function()).name; // "anonymous"
+```
+`bind`返回的函数，`name`属性值会加上“bound”前缀。
+```javascript
+function foo() {};
+foo.bind({}).name; // "bound foo"
+(function(){}).bind({}).name; // "bound "
+```
 - 箭头函数
+ES6允许使用“箭头”（`=>`）来定义函数。
+```javascript
+var f= v => v;
+//等同于
+var f = function(v) {
+    return v;
+};
+```
+如果箭头函数不需要参数或需要多个参数，就使用圆括号代表参数部分。
+```javascript
+var f = () => 5;
+var f = function() {return 5};
+var sum = (num1, num2) => num1 + num2;
+var sum = function(num1, num2) {
+    return num1 + num2;
+};
+```
+如果箭头函数的代码块部分多余一条语句，就需要大括号括起来，并使用return语句返回。
+```javascript
+var sum = (n1, n2) => {return n1 + n2;};
+```
+由于大括号被解释为代码块，如果箭头函数返回一个对象，必须在对象外面加上括号。
+```javascript
+var getti = id => ({id: id, name: "Temp"});
+```
+箭头函数可以与变量解构结合使用
+```javascript
+const full = ({first, last}) => first + ' ' + last;
+//等同于
+function full(person) {
+    return person.first + ' ' + person.last;
+}
+
+[1, 2, 3].map(function(x) {
+    return x * x;
+});
+[1, 2, 3].map(x => x * x);
+
+const numbers = (...nums) => nums;
+numbers(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
+const handt = (head, ...tail) => [head, tail];
+hant(1, 2, 3, 4, 5);  // [1, [2, 3, 4, 5]]
+```
+**注意事项**
+    + 函数体内的`this`对象，为定义时所在的对象，而不是使用时所在的对象。
+    ```javascript
+    var handler = {
+        id: "123456",
+        init: function() {
+            document.addEventListener("click",
+            event => this.doSomething(event.type), false);
+        },
+        doSomething: function(type) {
+            console.log("Handling " + type  + " for " + this.id);
+        }
+    };
+    ```
+    上面代码中的`init`方法使用了箭头函数，导致箭头函数中的`this`，只想`handler`对象。
+    ```javascript
+    function foo() {
+        setTimeout( () => {
+            console.log("id:", this.id);
+        },100);
+    }
+    var id = 21;
+    foo.call( { id: 42 } );
+    // id: 42
+    ```
+    `this`指向的固化，不是因为箭头函数内部有绑定`this`的机制，而是因为箭头函数根本没有自己的`this`，导致内部的`this`就是外部代码块的`this`。正因为它没有`this`，所以也就不能作为构造函数。除了`this`，这三个变量在箭头函数中也不存在，都指向外层函数对应的变量：`arguments`，`super`，`new.target`。
+    + 不能当做构造行数，IOW，不能使用`new`命令，否则会抛出一个错误。
+    + 不能使用`arguments`对象，该对象在函数内不存在，要使用可以用rest参数代替。
+    + 不能使用`yield`命令，因此箭头函数不能做Genertor函数。
 - 函数绑定
 - 尾调用优化
 - 函数参数的尾逗号
 
 # 对象的扩展
 - 属性的简洁表示法
+ES6 允许直接写入变量和函数作为对象的属性和方法。
+```javascritp
+var foo = 'bar';
+var baz = {foo};
+baz; // {foo: 'bar'}
+//等同于
+var baz = {foo: foo};
+```
+以上代码表明，ES6允许在对象之中，只写属性名，不写属性值。这时属性值等于属性名所代表的变量。
+```javascript
+function f(x, y) {
+    return {x, y}
+}
+//等同于
+function f(x, y) {
+    return {x: x, y: y};
+}
+```
+除了属性简写，方法也可以简写
+```javascript
+var o = {
+    method() {
+        return "Hello";
+    }
+};
+//等同于
+var o = {
+    method: function() {
+        return "Hello";
+    }
+};
+```
 - 属性名表达式
+ES6允许字面量定义对象时，用表达式作为对象的属性名，即把表达式放在方括号中。
+```javascript
+let propKey = 'foo';
+let obj = {
+    [propKey]: true,
+    ['a' + 'bc']: 123
+};
+obj;// { foo: true, abc: 123 }
+```
+表达式还可以用来定义方法名：
+```javascript
+let obj = {
+    ['a' + 'bc']() {
+        return 'hi';
+    }
+};
+obj.abc();// hi
+```
+**属性名表达式和简洁表示法不能同时使用。**
+```javascript
+var foo = 'bar';
+var bar = 'abc';
+var baz = { [foo] }; //报错
+//正确
+var foo = 'bar';
+var baz = { [foo]: 'abc' };
+```
 - 方法的name属性
 - Object.is()
+用来比较两个值是否相等，与`===`严格相等运算符行为基本一致。
+在ES5中`==`会自动转换数据类型，`===`会在两个`NaN`比较时不相等，以及`+0`等于`-0`；ES6的`Object.is`就是解决这个问题的新方法。
+```javascript
+Object.is('foo', 'foo');  //true
+Object.is({}, {}); //false
+
++0 === -0  //true
+NaN === NaN //false
+Object.is(+0, -0); //false
+Object.is(NaN, NaN); //true
+```
 - Object.assign()
+用于对象的合并，将源对象的所有可枚举属性，赋值到目标对象。
+方法第一个参数是目标对象，后面其他参数都是源对象。
+```javascript
+var target = {a: 1};
+var source1 = {b: 2};
+var source2 = {c: 3};
+Object.assign(target, source1, source2);
+target; // {a: 1, b: 2, c: 3}
+```
+**如果只有一个参数，会直接返回该参数；如果不是对象，则先转成对象然后再返回**
+`Object.assign`方法是浅拷贝，不是深拷贝，如果源对象的某个属性值是一个对象，那么目标对象拷贝得到的知识这个对象的引用。
+```javascript
+var obj1 = {a: {b: 1}};
+var obj2 = Object.assign({}, obj1);
+obj1.a.b = 2;
+obj2.a.b // 2
+```
+同名的属性，会被替换而不是添加；
+`Object.assign`可以处理数组，但是会把数组视为对象
+```javascript
+Object.assign([1, 2, 3], [4, 5]); // [4, 5, 3]
+```
+相当于将属性名为：0，1的对象被4，5替换；
 - 属性的可枚举性
+对象的每个属性都有一个描述对象（Descriptor），用来控制该属性的行为。`Object.getOwnPropertyDescriptor`方法可以获取该属性的描述对象。
+描述对象的`enumerable`属性称为“可枚举性”，如果该属性为`false`，表示某些操作会忽略当前属性。
+ES5有三个操作忽略`enumerable`为`false`属性。
+    + for...in循环：只遍历自身和继承的可枚举属性
+    + Object.keys()：返回自身可枚举属性的键名
+    + JSON.stringify()：只串化对象自身的可枚举属性
+ES6增加两个操作会忽略`enumerable`为`false`的属性。
+    + Object.assign()：只拷贝自身可枚举属性
+    + Reflect.enmerable()：返回所有`for...in`会遍历的属性
+**ES6规定，所有Class的原型方法都是不可枚举的。**
 - 属性的遍历
 - \_\_proto\_\_属性，Object.setPrototypeOf()，Object.getPrototypeOf()
 - 对象的扩展运算符
 - Object.getOwnPropertyDescriptors()
+
+# Set 和 Map 数据结构
+
+## Set
+Set类似于数组，但是成员的值都是唯一的，没有重复的值；
+方法：
+- add(value)
+- delete(value)
+- has(value)
+- clear()
+遍历成员：
+- keys() 
+- values()
+- entries()
+- forEach(func)
+Set结构没有键名，只有键值（或者说键名和键值是同一值）所以`keys`方法和`values`方法的行为完全一致
+## Map
+Object结构提供“字符串-值”的对应，Map结构提供了“值-值”的对应，是一种跟完善的Hash结构实现。
+```javascript
+var m = new Map();
+var o = {p: "Hello World"};
+m.set(o, "content")
+m.get(o) // "content"
+m.has(o) // true
+m.delete(o) // true
+m.has(o) // false
+
+var map = new Map([["name", "张三"], ["title", "Author"]]);
+map.size // 2
+map.has("name") // true
+map.get("name") // "张三"
+map.has("title") // true
+map.get("title") // "Author"
+
+var map = new Map();
+var k1 = ['a'];
+var k2 = ['a'];
+map
+.set(k1, 111)
+.set(k2, 222);
+map.get(k1) // 111
+map.get(k2) // 222
+```
+属性和方法：
+    - size
+    - set(key, value);
+    - get(key)
+    - has(key)
+    - delate(key)
+    - clear()
+遍历方法：
+    - keys()
+    - values()
+    - entries()
+    - forEach(func)
+```javascript
+let map = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+[...map.keys()]
+// [1, 2, 3]
+[...map.values()]
+// ['one', 'two', 'three']
+[...map.entries()]
+// [[1,'one'], [2, 'two'], [3, 'three']]
+[...map]
+// [[1,'one'], [2, 'two'], [3, 'three']]
+```
+forEach方法可以接受第二个参数，用来绑定this
+```javascript
+var reporter = {
+  report: function(key, value) {
+    console.log("Key: %s, Value: %s", key, value);
+  }
+};
+map.forEach(function(value, key, map) {
+  this.report(key, value);
+}, reporter);
+```
