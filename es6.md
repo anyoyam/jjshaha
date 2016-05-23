@@ -1427,3 +1427,105 @@ map.forEach(function(value, key, map) {
   this.report(key, value);
 }, reporter);
 ```
+# Iterator 和 for...of 循环
+
+- Iterator 概念
+- 数据结构的默认Iterator接口
+- 调用Iterator接口的场合
+    + 解构赋值
+    + 扩展运算符
+    + yield*
+    + 其他场合
+        * for...of
+        * Array.from()
+        * Map(), Set(), WeakMap(), WeakSet()（比如`new Map([['a', 1], ['b', 2]])`）
+        * Promise.all()
+        * Promise.rece()
+- 字符串的Iterator接口
+- Iterator接口和Generator函数
+- 遍历器对象的return(), throw()
+    `return`方法使用的场合是，当`for...of`循环提前退出（出错，`break`或者`cotinue`语句造成），就会调用`return`方法
+- for...of循环
+    `for...of`内部调用的是数据结构的`Symbol.iterator`方法。
+    适用范围：数组，Set和Map结构，某些内丝数组的对象（arguments对象，DOM NodeList对象），Generator对象，以及字符串。
+
+# Generator 函数
+
+Generator是一种异步变成解决方案，是一个状态机，封装多个内部状态，会返回一个遍历器对象，可以依次遍历Generator函数内部的每一个状态。
+Generator是一个普通函数，但有两个特征：一是，`function`关键字和函数名之间有一个星号，二是，函数内部使用`yield`语句，定义不同内部状态。
+```javascript
+function* gen1() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+function* gen2() {
+    yield* gen1();
+    try {
+        yield 'err';
+    } catch (e) {
+
+    }
+    yield 'a';
+    yield 'b';
+    return 'z';
+}
+
+var g = gen2();
+g.next();
+g.next(10);
+g.throw(2);
+g.return('x');
+```
+
+- next方法的参数
+- for...of循环
+- Generator.prototype.throw()
+- Generator.prototype.return()
+- yield* 语句
+- 作为对象属性的Generator函数
+- Generator函数的this
+- Generator函数推导
+
+# Promise 对象
+
+- Promise.prototype.then()
+Promise实例具有`then`方法，作用为Promise实例添加状态改变时的毁掉函数；第一个参数是Resolved状态的回调函数，第二个（可选）是Rejected状态的回调函数。
+- Promise.prototype.catch()
+`Promise.prototype.catch()`方法是`Promise.prototype.then(null, rejection)`的别名，用于指定发生错误的回调函数。
+`Promise.on('unhandledRejection', (err, promise) => console.log(err.stack, promise))`：Node.js有一个`unhandledRejction`事件，专门监听未捕获的`reject`错误。两个参数，第一个是错误对象，第二个是报错的`Promise`实例；
+- Promise.all()
+用于将多个Promise实例，包装成一个新的Promise实例。`Promise.all`接受一个数组作为参数，如果不是，会先调用`Promise.resolve`方法转换为Promise实例，再进一步处理。（`Promise.all`方法的参数可以不是数组，但必须就有Iterator接口，且返回的成员都是Promise实例。）
+```javascript
+var p = Promise.all([p1, p2, p3]);
+```
+`p`的状态由`p1`，`p2`，`p3`决定，分成两种情况。
+    * 只有`p1`，`p2`，`p3`的状态都变成`resolved`，`p`的状态才会变成`resolved`，此时`p1`，`p2`，`p3`的返回值组成一个数组，传递给`p`的回调函数。
+    * 只要`p1`，`p2`，`p3`之中有一个被`rejected`，`p`的状态就会变成`rejected`，此时第一个被`reject`的实例的返回值会传递给`p`的毁掉函数。
+- Promise.race()
+同样是将多个Promise实例，包装成一个新的Promise实例。
+- Promise.resolve()
+将现有对象转为Promise对象；
+`Promise.resolve`方法的参数分成四种情况
+    + 参数是一个Promise实例
+    将不做任何修改，原封不多的返回之歌实例
+    + 参数是一个`thenable`对象
+    `thenable`对象是指具有`then`方法的对象。例如
+    ```javascript
+    let thenable = {
+        then(resolve, reject) {
+            resolve(42);
+        },
+    };
+    let p1 = Promise.resolve(thenable);
+    p1.then(function(value) {
+      console.log(value);  // 42
+    });
+    ```
+    `Promise.resolve`方法会将这个对象转为Primise对象，然后立即执行`thenable`对象的`then`方法。
+    + 参数不是具有`then`方法的对象，或者就不是对象，则返回一个新的Promise对象，状态为`Resolved`
+    + 不带任何参数；直接返回一个状态`Resolved`状态的Promise对象。
+- Promise.reject()
+会返回一个新的Promise实例，状态为`rejected`。
+- async函数
+# 异步操作和Async函数
