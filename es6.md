@@ -1529,3 +1529,86 @@ var p = Promise.all([p1, p2, p3]);
 会返回一个新的Promise实例，状态为`rejected`。
 - async函数
 # 异步操作和Async函数
+- 概念
+所谓异步简单来说就是讲一个任务分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回头执行第二段。
+相应的，连续执行就叫做同步。
+    + 回调函数
+    + Promise
+- Generator
+Generator函数可以暂停执行和恢复执行，这是它能封装异步任务的根本原因。
+两个特性：
+    + 函数体内外的数据交换
+    + 错误处理机制
+next方法返回值的 `value`属性是Generator函数向外输出的数据，next方法还可以接受参数，这是想Generator函数体内输入数据。
+```javascript
+function* gen(x){
+    let y, z;
+    try {
+        y = 10 + (yield x + 1);
+        z = yield x + y;
+    } catch (e) {
+        console.log(e);
+    }
+    return z;
+}
+let t = gen(11);
+t.next(); // 12 false
+t.next(10); // 31 false
+t.next(18); // 18 true
+t.next(); // undefined true
+let t2 = gen(11);
+t.next(); // 12 false
+t.next(10); // 31 false
+t.throw("error..."); // error...
+t.next(18); // undefined true
+t.next(); // undefined true
+```
+Generator函数体外，使用指针对象的throw方法抛出错误，可以被函数体内的try...catch代码块捕获。实现时间和空间上的分离。
+- Thunk函数
+编译器的“传名调用”实现，往往是将参数放到一个临时函数之中，再将临时函数传入函数体。这个临时函数就叫Thunk函数。
+## Javascript重的Thunk函数
+在Javascript中，Thunk函数替换的不是表达式，而是多参数函数，将其替换成单参数的版本，且只接受回调函数作为参数。
+```javascript
+fs.readFile(fileName, callback);
+//Thunk版本
+var readFileThunk = Thunk(fileName);
+readFileThunk(callback);
+var Thunk = function(filename) {
+    return function(callback) {
+        return fs.readFile(filename, callback);
+    };
+}
+```
+任何函数，只要参数有回调函数，就能写成Thunk函数的形式。
+```javascript
+//Thunk函数转换器
+var Thunk = function(fn) {
+    return function() {
+        var args = Array.prototype.slice.call(arguments);
+        return function(callback) {
+            args.push(callback);
+            return fn.apply(this, args);
+        }
+    }
+}
+//usage:
+var readFileThunk = Thunk(fs.readFile);
+readFileThunk(filename)(callback);
+```
+## Thunkify模块
+用来生成一个Thunk函数。
+## Generator 函数的流程管理
+```javascript
+function run(fn) {
+    var gen = fn();
+    function callback(err, data) {
+        var thunk = gen.next(data);
+        if (thunk.done) return;
+        thunk.value(callback);
+    }
+    callback();
+}
+run(gen);
+```
+- co模块
+- async函数
