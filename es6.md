@@ -1612,3 +1612,234 @@ run(gen);
 ```
 - co模块
 - async函数
+
+# Class
+
+- 基本语法 及 类的继承
+ES6的类的写法其实是ES5的语法糖
+```javascript
+//ES5
+function Super(){}
+function Sub(){}
+Sub.prototype = new Super();
+Sub.prototype.constructor = Sub;
+var sub = new Sub();
+sub.__proto__ === Sub.prototype; // true
+sub.constructor === Sub; // true
+Sub.prototype.__proto__ === Super.prototype; // true
+```
+ES5的继承实质是子类的原型是父类的一个实例。原型中的构造函数指向子类构造方法本身；
+子类的实例的\_\_proto\_\_属性是子类的原型，子类的原型的\_\_proto\_\_属性是父类的原型；
+```javascript
+//ES6
+Class Super {
+    constructor([x, y]) {
+        this.x = x;
+        this.y = y;
+    }
+    say() {
+
+    }
+}
+Class Sub extends Super {
+    constructor(x, y) {
+        super(x, y);
+    }
+}
+Sub.prototype.constructor === Sub; //true
+sub.constructor === Sub; // true
+sub.__proto__ === Sub.prototype; // true
+Sub.__proto__ === Super; //true
+Sub.prototype.__proto__ === Super.prototype; // true
+```
+**类内部定义的方法都是不可枚举的**。ES5下是可枚举的。
+- 原生构造函数的继承
+ES5是先创建子类的实例对象`this`，然后再将父类的方法添加到`this`上面（`Parent.apply(this)`）。ES6的继承机制完全不同，实质是先创建父类的实例对象`this`（所以必须先调用`super`方法），然后再用子类的构造函数修改`this`。
+如果子类没有定义`constructor`方法，这个方法会默认添加，也就是说任何一个子类都有`constructor`方法。
+在子类的构造函数中，只有调用`super`之后，才能使用`this`关键字，否则会报错。原因是子类实例的构建是基于父类实例加工，只有`super`方法才能返回父类实例。
+- getter setter
+```javascript
+//ES5
+var obj = {
+    get prop() {return 'abc';},
+    set prop(a) {console.log('setter: ' + a);}
+};
+obj.prop = 123; // setter: 123
+obj.prop; // abc
+//ES6
+class CustomHTMLElement {
+    constructor(element) {
+        this.ele = element;
+    }
+    get html() {
+        return this.ele.innerHTML;
+    }
+    set html(h) {
+        this.ele.innerHTML = h;
+    }
+}
+```
+- Class的Generator方法
+如果某个方法之前加上星号`*`，就表示该方法是一个Generator函数。
+```javascript
+Class Foo {
+    constructor(...args) {
+        this.args = args;
+    }
+    *[Symbol.iterator]() {
+        for(let arg of this.args) {
+            yield arg;
+        }
+    }
+}
+for (let x of new Foo('hello', 'Yam')) {
+    console.log(x);
+}
+//hello
+//Yam
+```
+- Class的静态方法
+类相当于实例的原型，所有在类中定义的方法都会被实例继承。如果在一个方法前面加上`static`关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就是静态方法
+```javascript
+class Foo {
+    constructor() {
+
+    }
+    static calc(x, y) {
+        return x + y;
+    }
+}
+Foo.calc(1, 2); // 3
+var foo = new Foo();
+foo.calc(1, 2); // TypeError. undefined is not a function
+```
+- Class的静态属性和实例属性 ES7提案
+- new.target属性
+返回`new`命令作用于那个构造函数，如果构造函数不是通过`new`命令调用的，`new.target`会返回`undefined`。
+```javascript
+class R {
+    constructor() {
+        console.log(new.target)
+    }
+}
+```
+**notice：子类继承父类是，`new.target`会返回子类**
+```javascript
+class P {
+    constructor() {
+        console.log(...arguments);
+        console.log(new.target === C);
+    }
+}
+class C extends P {
+    constructor() {
+        super(...arguments);
+    }
+}
+var a = new C(1, 2, 3, 4, 5); // 1 2 3 4 5 // true
+```
+- Mixin模式
+
+# Module
+
+ES6的模块设计思想是尽量的静态化，使得编译时就能确定模块的依耐关系，以及输入和输出的变量。CommonJS和AMD模块都是在运行时确定这些东西；
+ES6模块不是对象，而是通过`export`命令显式指定输出的代码，输入时也是静态命令形式。
+```javascript
+import {stat, exists, readFile} from 'fs';
+```
+
+- 严格模式
+    + 变量必须声明后再使用
+    + 函数的参数不能有同名属性，否则报错
+    + 不能使用`with`语句
+    + 不能对只读属性赋值，否则报错
+    + 不能使用前缀0表示八进制，否则报错
+    + 不能删除不可删除的属性，否则报错
+    + 不能删除变量`delete prop`，会报错，只能删除属性`delete global[prop]`
+    + `evel`不会再它的外层作用域引入变量
+    + `eval`和`arguments`不能被重新赋值
+    + `arguments`不会自动反映函数参数的变化
+    + 不能使用`arguments.callee`
+    + 不能使用`arguments.caller`
+    + 禁止`this`指向全局对象
+    + 不能使用`fn.caller`和`fn.arguments`获取函数调用的堆栈
+    + 增加了保留字（e.g. `protected` `static` `interface`）
+- export命令
+用于规定模块的对外接口。一个模块就是一个独立的文件，文件内所有变量外部无法获取。
+```javascript
+//profile.js
+export var firstName = 'Mic';
+export var lastName = 'Jack';
+export var year  = 1985;
+//或者。
+var firstName = 'Mic';
+var lastName = 'Jack';
+var year = 1985;
+export {firstName, lastName, year};
+//输入函数或者类
+export function add(x, y) {
+    return x + y;
+}
+```
+一般输出的变量就是本来的名字，但可以使用`as`关键字起别名。
+```js
+function v1() {}
+function v2() {}
+export {v1 as func1, v2 as func2, v2 as ExFunc2};
+```
+`export`命令规定的时对外的接口，必须和模块内的变量建立一一对应关系。
+```js
+//报错
+export 1;
+//报错
+var m = 1;
+exprot m;
+
+//正确1
+export var m = 1;
+//正确2
+var m = 1;
+export {m};
+//正确3
+var n = 1;
+export {n as m};
+
+//报错
+function f() {}
+export f;
+//正确1
+export function f() {};
+//正确2
+function f() {}
+export {f};
+```
+- import命令
+通过该命令加载模块。
+```js
+import {firstName, lastName, year} from './profile';
+console.log('Mr./Mrs. ' + firstName + ' ' +lastName + " was born in " + year);
+```
+用于加载`profile.js`文件，并从中输入变量。
+`import`也可以使用`as`关键字，给变量起别名。
+- 模块的整体加载
+使用星（`*`）指定一个对象，所有输出值都加在到这个对象上面。
+```js
+//Math.js
+export funciton add(x, y) {return a + b;}
+export function by(x, y) {return x/y;}
+```
+加载这个模块。
+```js
+import {add, by} from './Math';
+add(1, 2); // 3
+by(4, 2); // 2
+//or 
+import * as Calc from './Math';
+Calc.add(1, 2); // 3
+Calc.by(4, 2); // 2
+```
+- export default命令
+- 模块的继承
+- ES6模块加载的实质
+- 循环加载
+- ES6模块的转码
