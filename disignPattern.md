@@ -310,3 +310,4 @@ Notice how the scoping function in the above basket module is wrapped around all
 
 - 很灵活的去定义只有我们的方法可以调用的私有方法和私有成员。因为他们没有暴露给页面的其他部分（只有我们导出的API是），它们是真的私有成员；
 - 给出的方法是被正常定义的并且命名的，这样很容易在调试时看到访问堆栈，可以发现是哪个方法抛出异常
+- 就像T.J Crowder之前指出，这样可使我们依赖环境返回不同的方法。在以前，我发现一些开发者使用这个方法进行UA测试，目的是提供一个代码路径在他们指定给IE的模块中，但是我们现在能便捷的选取特征检测达到一个相同的目标。(As T.J Crowder has pointed out in the past, it also enables us to return different functions depending on the environment. In the past, I've seen developers use this to perform UA testing in order to provide a code-path in their module specific to IE, but we can easily opt for feature detection these days to achieve a similar goal.)
