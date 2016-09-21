@@ -79,22 +79,96 @@ Action是一个普通的Javascript对象。Action必须有一个`type`属性，�
 import {ADD_TODO, REMOVE_TODO} from './actionTypes';
 ```
 
-FSA (Flux Standard Action)
+>[FSA (Flux Standard Action)](https://github.com/acdlite/flux-standard-action)
+>```javascript
+>{
+> type: 'ADD_TODO',
+> payload: {
+>   text: 'Do something.'
+> }
+>}
+>```
+>Action 必须有type属性，error，payload，meta是可选属性。`{type: ..., [error: ...,][payload: ...][meta: ...]}`
+>**type** 一个action的type定义了用户要发生动作的本质。两个相同`type`的action必须要能全等（===），`type`通常是一个不变的字符串或一个Symbol。
+>**payload** 一个可以是任何数据类型的可选属性。用来描述action的有效装载。可以是任何不是`type`或者action状态的数据。
+>根据约定，如果`error`属性被设置为`true`，那么`payload`必须是一个error对象，这个与用一个error拒绝一个Promise执行相似。
+>     **error** 一个可选属性，用一个action描述一个错误。
+>**meta** 一个可选属性，用来存放不属于`payload`的扩展信息。
+>以上是对一个Flux标准动作的定义。
+
+### Action创造器
 
 ```javascript
-{
-    type: 'ADD_TODO',
-    payload: {
-        text: 'Do something.'
+function addTodo(text) {
+    return {
+        type: ADD_TODO,
+        text
     }
 }
 ```
 
-Action 必须有type属性，error，payload，meta是可选属性。`{type: ..., [error: ...,][payload: ...][meta: ...]}`
+传统的Flux action创建器往往会在执行时触发dispatch，像这样：
 
-**type** 一个action的type定义了用户要发生动作的本质。两个相同`type`的action必须要能全等（===），`type`通常是一个不变的字符串或一个Symbol。
+```javascript
+function addTodoWithDispatch(text) {
+    const action = {
+        type: ADD_TODO,
+        text
+    }
+    dispatch(action);
+}
+```
 
-**payload** 
+在Redux中，实际上是将结果直接传递到`dispath()`方法中来触发。
+
+```javascript
+dispatch(addTodo(text));
+```
+
+另外，可以创建*bound action creator*用来自动执行dispatch：
+
+```javascript
+const boundAddTodo = (text) => dispatch(addTodo(text));
+```
+
+然后可以直接调用
+
+```javascript
+boundAddTodo(text);
+```
+
+`dispatch()`方法可以直接通过调用store的`store.dispatch()`方法来执行，大多数可以使用像*react-redux*的`connect()`方法来访问。你可以使用`bindActionCreators()`来将任意个action creator自动绑定到`dispatch()`方法。
+
+Action creator同时可以异步并会产生副作用。
+
+完整的source code
+
+#### `action.js`
+
+```javascript
+// action type
+export const ADD_TODO = 'ADD_TODO';
+export const TOGGLE_TODO = 'TOGGLE_TODO';
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+
+// other constants 其他常量
+export const VisibilityFilters = {
+    SHOW_ALL: 'SHOW_ALL',
+    SHOW_COMPLETED: 'SHOW_COMPLETED',
+    SHOW_ACTIVE: 'SHOW_ACTIVE'
+};
+
+// action creators
+export function addTodo(text) {
+    return {type: ADD_TODO, text};
+}
+export function toggleTodo(index) {
+    return {type: TOGGLE_TODO, index};
+}
+export function setVisibilityFilter(filter) {
+    return {type: SET_VISIBILITY_FILTER, filter};
+}
+```
 
 ## Reducers
 
