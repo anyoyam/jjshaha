@@ -174,7 +174,7 @@ export function setVisibilityFilter(filter) {
 
 Action只是描述了要发生的情形，但没有说明应用状态在响应中如何变化。这就是reducer的工作。
 
-### 定义State模型
+### <a name="/tag/designing_the_state_shape">定义State模型</a>
 
 在Redux里，所有的应用状态都保存在一个单一的对象中。这是一个好想法在写代码前考虑整体形态。什么样的一个对象是你应用状态的最小表达式？
 
@@ -655,6 +655,236 @@ React的Redux封装库使用了分离表象组件和容器组件的概念，如�
 | 改变数据 | 执行Props中的回调 | 触发Redux的action |
 | 被编写 | 手工编写 | 通常被React Redux生成 |
 
+大多数组件都属于表象组件，我们也需要生成一些容器组件用来和Redux Store进行连接。
+从技术上来说你需要使用`store.subscribe()`自己手动编写自检容器。我们不建议你这样做因为React Redux做了很多性能优化的处理这些都很难通过手动出完成。正是因为这个原因，可以使用React Redux提供的`connect()`来生成容器组件。
 
+### 设计组件层次结构
 
+还记得[如何设计根state对象的结构](#/tag/designing_the_state_shape)吗？现在就可以设计UI的层次结构来匹配它了。这个不是一个专门给Redux的任务。[Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)是一个很好的手册解释了这种处理方式。
 
+我们的设计概要很简单，需要一个列表用来显示todo的项目。点击时todo的项目会被划掉表示完成了。我们需要一个表单用来添加新的todo项目。在底部我们需要显示一个触发器用来切换显示全部，仅显示完成的，或者只显示激活的todo项目。
+
+#### 表象组件
+
+可以从下面的概要中看到要用到的表象组件和它们暴露出来的props：
+
+- `TodoList` 是一个显示可见todo项目的列表
+    + `todos: Array` 是一个保存todo条目的数组，用`{id, text, completed}`这种结构
+    + `onTodoClick(id: number)` 是当todo条目被点击后执行的回调函数。
+- `Todo` 是一个单一todo条目
+    + `text: string` 要显示的文本
+    + `completed: boolean` todo条目是否显示划掉
+    + `onClick()` todo条目被点击后执行的回调函数
+- `Link` 带有回调函数的链接
+    + `onClick()` 当链接被点击时执行的回调函数
+- `Footer` 用来定义让用户切换当前显示todo列表条目的组件
+- `App` 根组件用来渲染其他的任何东西
+
+它们定义了表象但不知道数据从哪里来，也不知道如何去改变它。它们仅仅是渲染出我们给它们的。如果你从Redux转移到其他，这部分组件可以完全的保留下来。它们与Redux没有任何关联。
+
+#### 容器组件
+
+我们需要一些容器组件来将表象组件与Redux进行关联。举个例子，表象组件`TodoList`需要一个容器组件像`VisibleTodoList`能够订阅到Redux store，知道如何应用当前的显示过滤器。当改变显示过滤器时，我们提供一个`FilterLink`容器组件用来渲染一个`Link`用来在点击事件时触发一个恰当的action：
+
+- `VisibleTodoList` 根据当前显示过滤器过滤todo条目并渲染出一个`TodoList`
+- `FilterLink` 获取当前显示过滤器并渲染出一个`Link`
+    + `filter: string` 是它所表示的显示过滤器
+
+#### 其他组件
+
+有时很难定义一个组件是属于表象组件还是容器组件。比如说，表单和函数确实是绑定在一起的，就像这个小组件：
+
+- `AddTodo` 是一个input输入框和一个"Add"按钮。
+
+从技术上来说我们需要将它分离成两个组件，但是对于现在这个平台有些太早了。将表象和逻辑组合成一个很小的组件挺好的。当它壮大以后，如何分离它将会比较明显一些，我们将会撇开混合的。
+
+### 实现组件
+
+开始编写组件！从变相组件开始因为不需要考虑如何与Redux绑定。
+
+#### 表象组件
+
+都是一些很普通的的React组件，不需要太细致的研究。只需要编写功能性无状态组件除非需要本地state或者生命周期函数。这不是说表象组件就只是一个函数 —— 只是这种定义方式比较简单。如果当我们需要添加本地state，生命周期函数或者性能优化是，我们再将它们转换成类。
+
+**`components/Todo.js`**
+
+```javascript
+import React, {PropTypes} from 'react';
+
+const Todo = ({onClick, completed, text}) => (
+    <li
+        onClick={onClick}
+        style={{textDecoration: completed ? 'line-through' : 'none'}}
+    >
+        {text}
+    <\/li>
+);
+
+Todo.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    completed: PropTypes.bool.isRequired,
+    text: PropTypes.string.isRequired
+};
+
+export default Todo;
+```
+
+**`components/TodoList.js`**
+
+```javascript
+import React, {PropTypes} from 'react';
+import Todo from './Todo';
+
+const TodoList = ({todos, onTodoClick}) => (
+    <ul>
+        {todos.map((todo) => (
+            <Todo 
+                key={todo.id}
+                {...todo}
+                onClick={()=>onTodoClick(todo.id)}
+            \/>
+        ))}
+    <\/ul>
+);
+
+TodoList.propTypes = {
+    todos: PropTypes.arrayOf(
+        PropTypes.shape(
+            id: PropTypes.number.isRequired,
+            completed: PropTypes.bool.isRequired,
+            text: PropTypes.string.isRequired
+        ).isRequired
+    ).isRequired,
+    onTodoClick: PropTypes.func.isRequired
+};
+
+export default TodoList;
+```
+
+**`components/Link.js`**
+
+```javascript
+import React, {PropTypes} from 'react';
+
+const Link = ({active, children, onClick}) => {
+    if (active) {
+        return <span>{children}<\/span>
+    }
+    return (
+        <a href="#"
+            onClick={e=>{
+                e.preventDefault();
+                onClick()
+            }}
+        >
+        {children}
+        <\/a>
+    );
+};
+
+Link.propTypes = {
+    active: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func.isRequired
+};
+
+export default Link;
+```
+
+**`components/Footer.js`**
+
+```javascript
+import React, {PropTypes} from 'react';
+import FilterLink from '../containers/FilterLink';
+
+const Footer = () => {
+    <p>
+    Show:
+    {" "}
+    <FilterLink filter="SHOW_ALL">
+    ALL
+    <\/FilterLink>
+    {", "}
+    <FilterLink filter="SHOW_ACTIVE">
+    Active
+    <\/FilterLink>
+    {", "}
+    <FilterLink filter="SHOW_COMPLETED">
+    Completed
+    <\/FilterLink>
+    <\/p>
+};
+
+export default Footer;
+```
+
+**`components/App.js`**
+
+```javascript
+import React, {PropTypes} from 'react';
+import Footer from './Footer';
+import AddTodo from '../containers/AddTodo';
+import VisibleTodoList from '../containers/VisibleTodoList';
+
+const App = () => (
+    <div>
+        <AddTodo \/>
+        <VisibleTodoList \/>
+        <Footer \/>
+    <\/div>
+);
+
+export default App;
+```
+
+#### 容器组件
+
+现在是时候创建一些容器组件来连接这些表象组件和Redux了。从技术上来说，一个容器组件只是一个React组件使用`store.subscribe()`读取Redux状态树的部分数据然后提供props给渲染用的表象组件。你可以手动编写一个容器组件，但是我们建议使用React Redux类库的`connect()`方法来生成一个容器组件，它提供了有用的优化点预防不必要的重复渲染。（这样处理的一个结果是你不需要担心自己去实现`shouldComponentUpdate()`所产生的[React性能建议](https://facebook.github.io/react/docs/advanced-performance.html)问题）
+
+使用`connect()`，你需要定义一个叫做`mapStateToProps`的特殊方法，它说明了如何转换当前的Redux store成为要传入一个你包装用的表象组件的props属性。举个例子，`VisibleTodoList`需要计算出`todos`传递给`TodoList`，所以我们需要定义一个方法用来根据`state.visibilityFilter`来过滤`state.todos`，然后在它自己的`mapStateToProps`中使用。
+
+```javascript
+const getVisibleTodos = (todos, filter) => {
+    switch (filter) {
+        case 'SHOW_ALL':
+            return todos;
+        case 'SHOW_COMPLETED':
+            return todos.filter(t => t.completed);
+        case 'SHOW_ACTIVE':
+            return todos.filter(t => !t.completed);
+    }
+};
+
+const mapStateToProps = (state) => {
+    return {
+        todos: getVisibleTodos(state.todos, state.visibilityFilter);
+    };
+};
+```
+
+除了(In addition to)读取state，容器组件还能触发action。用同样的方式，你可以定义一个叫做`mapDispatchToProps()`的方法用来接收`dispatch()`方法，然后返回一个要注入到表象组件的回到函数props。举个例子，我们要让`VisibleTodoList`注入一个叫做`onTodoClick`的prop到`TodoList`组件中去，然后让`onTodoClick`去执行一个`TOGGLE_TODO`的action。
+
+```javascript
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTodoClick: (id) => {
+            dispatch(toggleTodo(id));
+        }
+    };
+};
+```
+
+最后，我们创建一个`VisibleTodoList`用来执行`connect()`并把两个function传进去：
+
+```javascript
+import {connect} from 'react-redux';
+
+const VisibleTodoList = connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(TodoList);
+
+export default VisibleTodoList;
+```
+
+这些都是React Redux API的基础部分，有一些便捷的并且功能强大的选项，我们鼓励你去阅读它的详细[官方文档](https://github.com/reactjs/react-redux)。如果（In case）你担心`mapStateToProps`太频繁的创建新对象，你可以去学习如何使用[reset](https://github.com/reactjs/reselect)来计算派生数据。
