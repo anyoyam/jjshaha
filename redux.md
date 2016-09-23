@@ -592,6 +592,7 @@ React的Redux封装库使用了分离表象组件和容器组件的概念，如�
 > ### 表象组件和容器组件
 > 当你在编写React应用时会发现一个非常有用的简单模式。如果你已经用过React一段时间了，你也许已经注意到它了。[这篇文章也很好的说明了](https://medium.com/@learnreact/container-components-c0e67432e005)，但我还是想补充几点。
 > 如果你决定将组件分成两个分类你会发现你的组件会非常容易的重复使用。我称它们为*容器组件和表象组件*，也听说过其他称呼如胖组件和瘦组件Fat and Skinny，聪明组件和哑巴组件Smart and Dumb，有状态组件和纯组件Statefull and Pure，视图和组件Screens and Components等等。它们其实不完全相同，但核心的思想是一样的。
+
 > **我理解的表象组件**
 
 > 1. 与一个东西的样式有关
