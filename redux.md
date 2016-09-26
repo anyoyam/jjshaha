@@ -89,10 +89,13 @@ import {ADD_TODO, REMOVE_TODO} from './actionTypes';
 >}
 >```
 >Action 必须有type属性，error，payload，meta是可选属性。`{type: ..., [error: ...,][payload: ...][meta: ...]}`
+
 >**type** 一个action的type定义了用户要发生动作的本质。两个相同`type`的action必须要能全等（===），`type`通常是一个不变的字符串或一个Symbol。
+> 
 >**payload** 一个可以是任何数据类型的可选属性。用来描述action的有效装载。可以是任何不是`type`或者action状态的数据。
 >根据约定，如果`error`属性被设置为`true`，那么`payload`必须是一个error对象，这个与用一个error拒绝一个Promise执行相似。
->     **error** 一个可选属性，用一个action描述一个错误。
+>**error** 一个可选属性，用一个action描述一个错误。
+> 
 >**meta** 一个可选属性，用来存放不属于`payload`的扩展信息。
 >以上是对一个Flux标准动作的定义。
 
