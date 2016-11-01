@@ -891,3 +891,125 @@ export default VisibleTodoList;
 ```
 
 这些都是React Redux API的基础部分，有一些便捷的并且功能强大的选项，我们鼓励你去阅读它的详细[官方文档](https://github.com/reactjs/react-redux)。如果（In case）你担心`mapStateToProps`太频繁的创建新对象，你可以去学习如何使用[reset](https://github.com/reactjs/reselect)来计算派生数据。 
+
+下面定义了容器组件的剩余(rest)部分：
+
+**`containers/FilterLink.js`**
+
+```javascript
+import {connect} from 'react-redux';
+import {setVisibilityFilter} from '../actions';
+import Link from '../components/Link';
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    active: ownProps.filter === state.visibilityFilter
+  };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onClick: () => {
+      dispatch(setVisibilityFilter(ownProps.filter));
+    }
+  };
+}
+
+const FilterLink = connect(mapStateToProps, mapDispatchToProps)(Link);
+
+export default FilterLink;
+```
+
+**`containers/VisibleTodoList.js`**
+
+```javascript
+import {connect} from 'react-redux';
+import {toggleTodo} from '../actions';
+import TodoList from '../components/TodoList';
+
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed)
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed)
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    todos: getVisibileTodos(state.todos, state.visibilityFilter)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTodoClick: (id) => {
+      dispatch(toggleTodo(id))
+    }
+  }
+}
+
+const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+
+export default VisibleTodoList;
+```
+
+其他组件
+
+**`containers/AddTodo.js`**
+
+```javascript
+import React from 'react';
+import {connect} from 'react-redux';
+import {addTodo} from '../actions';
+
+let AddTodo = ({dispatch}) => {
+  let input;
+  return (
+    <div>
+      <form onSubmit={e => {
+        e.preventDefault();
+        if (!input.value.trim()) {
+          return !1;
+        }
+        dispatch(addTodo(input.value))
+        input.value = '';
+        }}>
+        <input ref={node => {
+          input = node;
+          }} />
+        <button type="submit">Add Todo<\/button>
+      <\/form>
+    <\/div>
+  );
+};
+AddTodo = connect()(AddTodo);
+export default AddTodo;
+```
+
+所有的容器组件需要访问Redux的store以便订阅它。有一个选项需要作为props传递给每一个容器组件。然而这样会很冗长乏味，你不得不连接`store`甚至穿过表象组件只是因为组件树的深处需要渲染一个容器。
+
+我们推荐的做法是使用一个特殊的React Redux组件`Provider`，神奇的使store在应用中所有的容器组件中被访问而不需要显式传递它。你只需要在渲染root组件时使用一次就可以了。
+
+**`index.js`**
+
+```javascript
+import React from 'react';
+import {render} from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import todoApp from './reducers';
+
+let store = createStore(todoApp);
+
+render (
+  <Provider store={store}>
+    <App />
+  <\/Provider>,
+  document.getElementById('root')
+);
+```
+
