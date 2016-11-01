@@ -890,4 +890,4 @@ const VisibleTodoList = connect(
 export default VisibleTodoList;
 ```
 
-这些都是React Redux API的基础部分，有一些便捷的并且功能强大的选项，我们鼓励你去阅读它的详细[官方文档](https://github.com/reactjs/react-redux)。如果（In case）你担心`mapStateToProps`太频繁的创建新对象，你可以去学习如何使用[reset](https://github.com/reactjs/reselect)来计算派生数据。
+这些都是React Redux API的基础部分，有一些便捷的并且功能强大的选项，我们鼓励你去阅读它的详细[官方文档](https://github.com/reactjs/react-redux)。如果（In case）你担心`mapStateToProps`太频繁的创建新对象，你可以去学习如何使用[reset](https://github.com/reactjs/reselect)来计算派生数据。 
