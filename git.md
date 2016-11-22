@@ -72,3 +72,19 @@
 ### 第一次运行Git前的配置
 
 Git的全局配置文件位于家目录(Windows下的`%USERPROFILE%`目录，Mac/Linux下的`$HOME`目录)下的`.gitconfig`文件
+
+首次在使用时请配置正确的用户信息，这些信息将会写入每次提交中，不可更改：
+
+```shell
+$ git config --global user.name "YOUR NAME"
+$ git config --global user.email "YOUR EMAIL"
+```
+
+其中`--global`选项用来标识将配置写入全局配置文件中。当我们配置时不加这个选项则这个配置将**只适用于当前**所在的git仓库；
+
+可以通过命令`git config <section>:<key>`来查看某一配置项
+
+```shell
+$ git config user.name
+Fen
+```
