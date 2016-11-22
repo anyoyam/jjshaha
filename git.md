@@ -53,8 +53,15 @@
 
 1. 命令行
 
+  ![git-terminal](./files/git-terminal.jpg)
   Terminal, git-shell, 控制台, PowerShell, msys等
 
 2. GUI软件
 
-  GitHub Desktop, SourceTree, TortoiseGit, Git Extensions
+  ![sourcetree](./files/sourcetree.jpg)
+  [GitHub Desktop](https://desktop.github.com), [SourceTree](https://www.sourcetreeapp.com), [TortoiseGit](https://tortoisegit.org/), Git Extensions等
+
+  + [下载GitHub Desktop](./files/zip/GitHubSetup.rar)
+  + [下载SourceTree](./files/zip/SourceTreeSetup_1.9.6.1.rar)
+
+
