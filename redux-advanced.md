@@ -201,6 +201,46 @@ export function receivePosts(subreddit, json) {
 > ```
 > 在这里我们不会使用常规化实体，这些是创建一个更动态应用需要考虑的事情。
 
+### 处理Action (Handling Actions)
+
+在进入配合网络请求分发action的具体操作之前，我们先为我们上面定义的action编写对应的reducer。
+
+> 合成Reducer的说明
+> 这里我们假定我们理解使用`combineReducers()`来合成reducer，在基础部分的分割reducer部分有详细的描述说明，如果你不清楚，请先返回到哪里去阅读先
+
+**`reducers.js`**
+
+```javascript
+import {combineReducers} from 'redux';
+import {
+    SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
+    REQUEST_POSTS, RECEIVE_POSTS
+} FROM '../actions';
+
+function selectedSubreddit(state = 'reactjs', action) {
+    switch (action.type) {
+        case SELECT_SUBREDDIT:
+            return action.subreddit;
+        default:
+            return state;
+    }
+}
+
+function posts(state = {
+    isFetching: false,
+    didInvalidate: false,
+    items: []
+}, action) {
+    switch (action.type) {
+        case INVALIDATE_SUBREDDIT:
+            return Object.assign({}, state, {
+                didInvalidate: true
+            });
+
+    }
+}
+```
+
 ## 异步流 (Async Flow)
 ## 中间件 (Middleware)
 ## 配合React Router使用
