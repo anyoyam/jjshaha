@@ -1,6 +1,12 @@
 # GIT 学习
 
-[TOC]
+<!-- MarkdownTOC -->
+
+- 什么是Git？
+- Git与其他版本控制系统的区别
+
+<!-- /MarkdownTOC -->
+
 
 ## 什么是Git？
 
