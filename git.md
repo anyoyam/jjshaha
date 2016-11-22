@@ -1,17 +1,20 @@
 # GIT 学习
 
-<!-- MarkdownTOC depth=2 -->
+<!-- MarkdownTOC depth=3 -->
 
-- 什么是Git？
-- Git与其他版本控制系统的区别
-- Git使用方式
+- 基础与起步
+    - 什么是Git？
+    - Git与其他版本控制系统的区别
+    - Git使用方式
+    - 第一次运行Git前的配置
 
 <!-- /MarkdownTOC -->
 
+## 基础与起步
 
-## 什么是Git？
+### 什么是Git？
 
-## Git与其他版本控制系统的区别
+### Git与其他版本控制系统的区别
 
 - 直接记录快照而非差异比较
 
@@ -49,7 +52,7 @@
 
   **工作目录**是对项目某个版本独立拉取出来的内容。从Git仓库的压数据库中提取出来的文件，放在磁盘中供使用或编辑。
 
-## Git使用方式
+### Git使用方式
 
 1. 命令行
 
@@ -66,4 +69,6 @@
   + [下载GitHub Desktop](./files/zip/GitHubSetup.rar)
   + [下载SourceTree](./files/zip/SourceTreeSetup_1.9.6.1.rar)
 
+### 第一次运行Git前的配置
 
+Git的全局配置文件位于[家目录](file:///%USERPROFILE%)下的`.gitconfig`文件
