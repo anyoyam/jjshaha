@@ -71,4 +71,4 @@
 
 ### 第一次运行Git前的配置
 
-    Git的全局配置文件位于<a href="file:///%USERPROFILE%">家目录</a>下的`.gitconfig`文件
+    Git的全局配置文件位于家目录(Windows下的%USERPROFILE%目录，Mac/Linux下的$HOME目录)下的`.gitconfig`文件
