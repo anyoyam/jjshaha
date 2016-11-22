@@ -7,6 +7,7 @@
     - Git与其他版本控制系统的区别
     - Git使用方式
     - 第一次运行Git前的配置
+    - 学会使用Git帮助
 
 <!-- /MarkdownTOC -->
 
@@ -58,7 +59,7 @@
 
   ![git-terminal](./files/git-terminal.gif)
 
-  Terminal, git-shell, 控制台, PowerShell, msys, SublimeText Plugin等
+  Terminal, git-bash, 控制台, PowerShell, msys, SublimeText Plugin等
 
 2. GUI软件
 
@@ -88,3 +89,27 @@ $ git config --global user.email "YOUR EMAIL"
 $ git config user.name
 Fen
 ```
+
+### 学会使用Git帮助
+
+对于在windows平台下安装适用git-bash的同学可以在shell中直接输入下面命令查看命令的帮助：
+
+```shell
+$ git help <verb>
+// 或者
+$ git <verb> --help
+```
+
+这两个命令会自动打开浏览器可以查看友好的web帮助文档。
+
+而在Mac或者Linux平台下的同学可以直接使用man命令查看帮助。
+
+```shell
+$ man git <verb>
+// 或者
+$ git <verb> --help
+```
+
+其中`<verb>`表示具体的命令，比如我们要查看`git config`的帮助文档，直接输入`git config --help` 或者 `git help config` 就可以查看了。
+
+
