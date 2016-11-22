@@ -8,6 +8,10 @@
     - Git使用方式
     - 第一次运行Git前的配置
     - 学会使用Git帮助
+- Git基本命令学习
+    - 创建/获取仓库
+- Git分支
+- Git工具
 
 <!-- /MarkdownTOC -->
 
@@ -112,4 +116,24 @@ $ git <verb> --help
 
 其中`<verb>`表示具体的命令，比如我们要查看`git config`的帮助文档，直接输入`git config --help` 或者 `git help config` 就可以查看了。
 
+## Git基本命令学习
 
+### 创建/获取仓库
+
+1. 在现有目录中初始化一个仓库
+
+    ```shell
+    $ git init
+    ```
+
+    在一个目录下运行了该命令后，目录下会新增一个`.git`子目录，这个目录包含了Git仓库所有必要的文件。
+
+2. 克隆现有的仓库
+
+    ```shell
+    $ git clone [url]
+    ```
+
+## Git分支
+
+## Git工具
