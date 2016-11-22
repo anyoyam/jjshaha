@@ -1,9 +1,10 @@
 # GIT 学习
 
-<!-- MarkdownTOC -->
+<!-- MarkdownTOC depth=2 -->
 
 - 什么是Git？
 - Git与其他版本控制系统的区别
+- Git使用方式
 
 <!-- /MarkdownTOC -->
 
@@ -48,3 +49,12 @@
 
   **工作目录**是对项目某个版本独立拉取出来的内容。从Git仓库的压数据库中提取出来的文件，放在磁盘中供使用或编辑。
 
+## Git使用方式
+
+1. 命令行
+
+  Terminal, git-shell, 控制台, PowerShell, msys等
+
+2. GUI软件
+
+  GitHub Desktop, SourceTree, TortoiseGit, Git Extensions
