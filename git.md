@@ -10,6 +10,7 @@
     - 学会使用Git帮助
 - Git基本命令学习
     - 创建/获取仓库
+    - Git核心工作流程和命令
 - Git分支
 - Git工具
 
@@ -137,8 +138,17 @@ $ git <verb> --help
     > 使用clone来克隆一个项目时，后面的`url`参数支持一下几种协议：
     >  - 本地协议 `git clone file://path/any.git`
     >  - HTTP协议 `git clone https://somedomain/any.git`
-    >  - SSH协议 `git clone git@somedomain/any.git`
-    > 优缺点可以参考[链接](https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%8D%8F%E8%AE%AE)
+    >  - SSH协议 `git clone ssh://git@somedomain/any.git`
+    >
+    > 优缺点可以参看[链接](https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%8D%8F%E8%AE%AE)
+
+### Git核心工作流程和命令
+
+工作目录下的每一个文件不外乎两种状态：已跟踪和未跟踪。
+
+Git文件变化周期如下：
+
+![文件生命周期](./files/lifecycle.png)
 
 ## Git分支
 
