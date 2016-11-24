@@ -16,6 +16,9 @@
     - 远程仓库的使用
     - 打标签
 - Git分支
+    - Git是如何保存数据？
+    - 创建分支
+    - 切换分支
 - Git工具
 
 <!-- /MarkdownTOC -->
@@ -263,6 +266,7 @@ Git文件变化周期如下：
 |`--stat`|| 显示每次提交的简略统计信息 |
 |`--pretty`|oneline, short, full, fuller, format|按不同格式展示提交历史|
 |`--graph`||用一些ASCII字符来展示分支，合并历史|
+|`--decorate`||用来显示分支|
 |`--abbrev-commit`||仅显示SHA-1前几个字符，而非完整的字符|
 |`--relative-date`||显示相对时间|
 |`--since`/`--after`||可以用来限制历史记录的开始日期|
@@ -270,7 +274,7 @@ Git文件变化周期如下：
 |`-<n>`|数字|用来限制显示条数|
 |`--author`|作者名|用来指定提交作者名|
 |`--grep`|关键字|韩式含指定关键字的提交|
-|`-g`/`--walk-reflogs`|
+|`-g`/`--walk-reflogs`|||
 
 ### 撤销操作
 
@@ -353,7 +357,7 @@ Git文件变化周期如下：
 |-a, --annotate|说明是一个附注标签|
 |-d|删除一个标签|
 |-l <pattern>, --list <pattern>|查看标签列表，后面可以跟匹配模式进行查找|
-|-m <msg>, --message=<msg>|给标签添加注释信息，`-m`选项带`-a`默认会带上选项|
+|-m <msg>, --message=<msg>|给标签添加注释信息，`-m`选项必须带上`-a`选项|
 
 > 可以使用命令 `git show [tag-name]` 查看标签详细信息
 
@@ -364,5 +368,47 @@ Git文件变化周期如下：
 将标签检出到一个分支 `git checkout -b [branch-name] [tag-name]`
 
 ## Git分支
+
+### Git是如何保存数据？
+
+在我们使用`git add .`命令往暂存区添加文件时，Git会先计算**每一个文件的校验和**，然后会把当前版本的文件**快照**保存到Git仓库中（Git使用**blob**对象来保存它们），最终将校验和加入到**暂存区**等待提交。
+
+当使用`git commit`进行提交时，Git会计算每一个**子目录**的校验和，然后在Git仓库中将这些校验和保存成为**树对象**；然后Git产生一个**提交对象**，一个提交对象中包含了**姓名**，**邮箱**，提交时输入的**注释信息**和一个指向该树对象的**指针**。这样在我们需要时，Git就可以拉取到保存的快照了。
+
+每一个提交对象还会有一个指向**父对象**的指针，**首次**提交*没有*父对象，**普通提交**会有*一个*父对象，而由**多个分支合并**产生的提交对象会有*多个*父对象；
+
+首次提交：
+
+![首次提交](./files/commit-and-tree.png)
+
+多次提交后，提价对象中会有一个指向上一次提交对象（父对象）的指针；
+
+![多次提交](./files/commits-and-parents.png)
+
+*Git的分支其本质仅仅是指向提交对象的可变指针*
+
+> `master`分支并不是一个特殊分支，它和其他分支没有区别，之所以几乎所有的仓库都有master分支，是因为`git init`命令会默认创建它；
+
+![branch-and-history.png](./files/branch-and-history.png)
+
+### 创建分支
+
+创建新分支只是为你创建一个可以移动的新指针；使用`git branch [new-branch]`创建；
+
+```shell
+$ git branch testing
+```
+
+![two-branches.png](./files/two-branches.png)
+
+Git中有一个名为`HEAD`的特殊指针，用来指向当前所在的本地分支；
+
+![head-to-master.png](./files/head-to-master.png)
+
+可以使用`git log --decorate --graph --oneline`来查看各个分支指向的对象
+
+### 切换分支
+
+`git checkout [branch-switch-to]`
 
 ## Git工具
