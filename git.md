@@ -300,7 +300,68 @@ Git文件变化周期如下：
 
 ### 远程仓库的使用
 
+查看远程仓库 `git remote`
+
+`-v` 选项，会显示远程仓库简写名与其对应的URL
+
+添加远程仓库 `git remote add <shortname> <url>`
+
+从远程仓库中抓取与拉取
+
+`git fetch [remote-name]` 从远程仓库中拉取你本地没有的数据；会抓取所有的数据，拥有远程分支所有分支引用，可以随时查看合并。
+
+`git pull` 同样是从远程仓库中拉取，但是该命令只会拉取当前分支对应的远程分支数据并尝试合并。
+
+推送到远程仓库 `git push [remote-name] [branch-name]`
+
+查看远程仓库更多信息 `git remote show <remote-name>`
+
+远程仓库重命名 `git remote rename <old-remote-name> <new-remote-name>`
+
+移除远程仓库 `git remote rm <remote-name>`
+
 ### 打标签
+
+查看标签列表 `git tag`
+
+使用特定模式查找标签 `git tag -l 'v1.8.5*'`
+
+**创建标签**
+
+> 标签很像一个不会改变的分支 - 它只是一个特定提交的引用；
+
+- 轻量标签 (lightweight)
+
+    本质上是讲一个提交的校验和存储到一个文件中 - 没有任何其他标签
+
+    创建方法是在命令后直接跟上标签名字就可以了
+
+    ```shell
+    $ git tag v1.0.5
+    ```
+
+- 附注标签 (annotated)
+
+    附注标签是存储在Git数据库中的一个完整对象；可以被校验的，包括打标签者的名字，电邮，日期时间，还有一个标签信息
+
+    ```shell
+    $ git tag -a v1.4 -m "这是一个临时版本"
+    ```
+
+|选项|说明|
+|:---:|:---|
+|-a, --annotate|说明是一个附注标签|
+|-d|删除一个标签|
+|-l <pattern>, --list <pattern>|查看标签列表，后面可以跟匹配模式进行查找|
+|-m <msg>, --message=<msg>|给标签添加注释信息，`-m`选项带`-a`默认会带上选项|
+
+> 可以使用命令 `git show [tag-name]` 查看标签详细信息
+
+推送标签到远程仓库 `git push [remote-name] [tag-name]`
+
+推送所有标签到远程仓库 `git push [remote-name] --tags`
+
+将标签检出到一个分支 `git checkout -b [branch-name] [tag-name]`
 
 ## Git分支
 
