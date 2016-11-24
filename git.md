@@ -19,7 +19,9 @@
     - Git是如何保存数据？
     - 创建分支
     - 切换分支
-- Git工具
+    - 远程分支
+    - 上游分支/跟踪分支
+- 一些使用的技巧
 
 <!-- /MarkdownTOC -->
 
@@ -411,4 +413,58 @@ Git中有一个名为`HEAD`的特殊指针，用来指向当前所在的本地�
 
 `git checkout [branch-switch-to]`
 
-## Git工具
+### 远程分支
+
+远程引用是对远程仓库的引用（指针），包括分支，标签等等。
+
+可以通过`git ls-remote`来显式获得远程引用的完整列表，或通过使用`git remote show [remote-name]`获取远程分支更多信息。
+
+使用命令`git push [remote-name] [branch]`将本地修改推送到远程仓库
+
+使用这个命令git会将分支名称展开，例如我们使用`git push origin test`将本地test分支推送到远程，git展开后为`git push origin refs/heads/test:refs/heads/test`，推送本地的test分支更新远程的test分支；也可以用`git push origin test:test` 做同样的事情；
+
+`git push [remote-name] [local-branch]:[remote-branch]`
+
+删除远程分支 `git push [remote-name] :[remote-branch]` 或者 `git push origin --delete [branch]`
+
+### 上游分支/跟踪分支
+
+一个远程分支检出一个本地分支会自动创建一个“跟踪分支”。跟踪分支是与远程分支有直接关系的本地分支。如果在一个跟踪分支上输入`git pull`，Git会自动识别去哪个服务器上抓取，合并哪个分支
+
+使用`git checkout -b [branch] [remote-name]/[branch]`将检出一个跟踪分支
+使用`git checkout --track [remote-name]/[branch]`一样的效果
+
+使用`git branch --set-upstream-to [remote-name]/[branch]` 或者 `git branch -u [remote-name]/[branch]`来修改上游分支或者给本地分支绑定一个上游分支
+
+## 一些使用的技巧
+
+`git show <hash|branch>` 来查看一次指定的提交
+
+`git reflog` 查看引用日志，引用日志记录了进几个月HEAD和分支引用指向的历史。
+
+`git log -g` 可以查看类似`git log`输出风格的引用日志
+
+`git show HEAD^` 查看HEAD的父提交 HEAD^2 查看HEAD的第二个父提交（一般用在合并的提交）
+
+`git show HEAD~` 查看HEAD的父提交 HEAD~2 查看HEAD父提交的父提交
+
+`git log <branchA>..<branchB>` 查看B分支还有那些内容没有合并到A分支
+
+`git stash` 或 `git stash save` 将当前分支的修改储藏起来
+
+`git stash list` 查看储藏列表
+
+`git stash apply [stash@{number}]` 将储藏起来的数据重新应用到工作区，可以指定应用那一条储藏
+
+`git stash pop` 应用最近一条储藏并删除储藏信息
+
+`git grep -n <keyword>` 从工作目录中查找一个字符串或者正则表达式，`-n`找出匹配行行号
+
+**git reset命令**
+
+||HEAD指向|暂存区|工作区|是否安全|
+|:---|:---:|:---:|:---:|:---:|
+|reset --soft <commit>||/|/|Y|
+|reset [--mixed] <commit>||改变|/|Y|
+|reset --hard <commit>||改变|改变|**N**|
+|checkout <commit>||改变|改变|Y|
