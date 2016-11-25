@@ -34,6 +34,10 @@
 
 ### 什么是Git？
 
+![Git](./files/git.gif)
+
+[什么是版本控制器及版本控制器的分类](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%85%B3%E4%BA%8E%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)
+
 ### Git与其他版本控制系统的区别
 
 - 直接记录快照而非差异比较
