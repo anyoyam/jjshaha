@@ -22,6 +22,11 @@
     - 远程分支
     - 上游分支/跟踪分支
 - 一些使用的技巧
+- git reset与git checkout命令
+    - 图解Git主要流程
+    - 作用于提交上
+    - 作用在文件上
+    - 总结
 
 <!-- /MarkdownTOC -->
 
@@ -460,11 +465,82 @@ Git中有一个名为`HEAD`的特殊指针，用来指向当前所在的本地�
 
 `git grep -n <keyword>` 从工作目录中查找一个字符串或者正则表达式，`-n`找出匹配行行号
 
-**git reset命令**
+## git reset与git checkout命令
+
+> `reset`命令会移动HEAD以及**HEAD所处分支**的指向
+
+> `checkout`命令只会移动HEAD指向
+
+`git reset`会有三个常用的选项 `--soft`, `--mixed`以及`--hard`
+
+### 图解Git主要流程
+
+`git init` 初始化一个Git仓库
+
+![reset-ex1.png](./files/reset-ex1.png)
+
+`git add` 往暂存区添加一个文件
+
+![reset-ex2.png](./files/reset-ex2.png)
+
+`git commit` 提交
+
+![reset-ex3.png](./files/reset-ex3.png)
+
+### 作用于提交上
+
+`git reset --soft HEAD~` 重置到上一个提交上
+
+![reset-soft.png](./files/reset-soft.png)
+
+本质上是撤销了上一次`git commit`命令；
+
+**不会改变索引和工作目录**
+
+`git reset [--mixed] HEAD~` 移动HEAD及对应分支到指定提交上，**并更新索引的内容**
+
+![reset-mixed.png](./files/reset-mixed.png)
+
+`git reset --hard HEAD~` 移动HEAD及对应分支到指定提交上，更新索引内容，**并更新工作目录**
+
+![reset-hard.png](./files/reset-hard.png)
+
+> 总结：
+>
+> reset命令会以特定的顺序重写这三棵树（Git仓库，暂存区，工作目录）
+> 1. 移动HEAD及HEAD对应分支的指向 （如果指定`--soft`选项，到此为止）
+> 2. 更新暂存区，使其内容为HEAD的内容 （如果**未**指定`--hard`选项，到此为止）
+> 3. 更新工作目录，是其内容为暂存区的内容 （使用`--hard`选项）
+
+`git checkout HEAD~` 只是移动HEAD指向
+
+### 作用在文件上
+
+`git reset`后面如果跟一个作用路径，`reset`将会跳过上面讲到的第一步，并且将它的作用范围限定为指定的文件或目录。
+
+例如`git reset file.txt` （其实是`git reset --mixed HEAD file.txt`的简写），它的作用如下图
+
+![reset-path1.png](./files/reset-path1.png)
+
+本质是从HEAD中将文件复制到暂存区中。做的和`git add file.txt`相反的动作，这就是为什么`git status`上面会用这条命令来取消暂存一个文件；
+
+我们还可以在指定的提交中来去文件的对应版本 `git reset <commit> file.txt`
+
+![reset-path3.png](./files/reset-path3.png)
+
+`git checkout`也可以指定一个特定的文件目录，像`reset`一样不会移动HEAD，它会用指定的提交更新索引并会覆盖工作目录中的对应文件。
+
+`git checkout [commit] file`，所以我们会在`git status`中看到提示，可以用该命令撤销未提交到暂存区的文件
+
+### 总结
 
 ||HEAD指向|暂存区|工作区|是否安全|
 |:---|:---:|:---:|:---:|:---:|
-|reset --soft <commit>||/|/|Y|
-|reset [--mixed] <commit>||改变|/|Y|
-|reset --hard <commit>||改变|改变|**N**|
-|checkout <commit>||改变|改变|Y|
+|作用于提交上|
+|reset --soft <commit>|移动HEAD以及HEAD对应的分支指向|/|/|Y|
+|reset [--mixed] <commit>|移动HEAD以及HEAD对应的分支指向|使暂存区像HEAD|/|Y|
+|reset --hard <commit>|移动HEAD以及HEAD对应的分支指向|使暂存区像HEAD|使工作目录像暂存区|**N**|
+|checkout <commit>|移动HEAD指向|使暂存区像HEAD|使工作目录像暂存区|Y(之所以说这个是安全的因为`checkout`更智能会自动判断)|
+|作用于文件上|
+|reset [--mixed] [commit] -- <file>|/|使暂存区像HEAD|/|Y|
+|checkout [commit] -- <file>|/|使暂存区像指定提交|使工作目录像暂存区|**N**|
