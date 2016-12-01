@@ -540,11 +540,11 @@ Git中有一个名为`HEAD`的特殊指针，用来指向当前所在的本地�
 
 ||HEAD指向|暂存区|工作区|是否安全|
 |:---|:---:|:---:|:---:|:---:|
-|作用于提交上|
+|作用于提交上|||||
 |reset --soft <commit>|移动HEAD以及HEAD对应的分支指向|/|/|Y|
 |reset [--mixed] <commit>|移动HEAD以及HEAD对应的分支指向|使暂存区像HEAD|/|Y|
 |reset --hard <commit>|移动HEAD以及HEAD对应的分支指向|使暂存区像HEAD|使工作目录像暂存区|**N**|
 |checkout <commit>|移动HEAD指向|使暂存区像HEAD|使工作目录像暂存区|Y(之所以说这个是安全的因为`checkout`更智能会自动判断)|
-|作用于文件上|
+|作用于文件上|||||
 |reset [--mixed] [commit] -- <file>|/|使暂存区像HEAD|/|Y|
 |checkout [commit] -- <file>|/|使暂存区像指定提交|使工作目录像暂存区|**N**|
