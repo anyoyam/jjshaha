@@ -5,6 +5,8 @@
     - 拉取未来Action \[监听actions\] take函数
     - 非阻塞的call （Non-blocking calls）fork函数 cancel函数 cancelled函数
     - 任务并行运行 Running Tasks in Parallel
+    - 多任务的比赛 Staring a race between multiple Effects
+    - 使用`yield*`来对Sagas排序 Sequencing Sagas via yield*
 
 <!-- /MarkdownTOC -->
 
@@ -194,3 +196,83 @@ const [users, repos] = yield [
 ```
 
 当我们yield一个effect数组时，generator会在**所有effect**都被resolve或者**其中一个**被reject之前阻塞。
+
+## 多任务的比赛 Staring a race between multiple Effects
+
+有时我们要开启一个并行的多任务，但是我们不想等待它们全部，我们只需要最快的那个（Winner），第一个被resolve或者被reject。`race`函数提供了一种多个Effects之间的比赛。
+
+下面的例子展示了一个任务会触发一个远程数据抓取请求，而约束条件是1秒后就超时。
+
+```javascript
+import {race, take, put} from 'redux-saga/effects';
+import {delay} from 'redux-saga';
+
+function* fetchPostsWithTimeout() {
+    const {posts, timeout} = yield race({
+        posts: call(fetchApi, '/posts'),
+        timeout: call(delay, 1000)
+    });
+
+    if (posts) {
+        put({type: 'POST_RECEIVED', posts});
+    } else {
+        put({type: 'TIMEOUT_ERROR'});
+    }
+}
+
+```
+
+另外一个非常有用的功能是`race`会自动取消失败的那个Effect，假设有两个button
+
++ 第一个在后台开启一个任务，跑一个无限循环（例如每几秒钟从服务器抓取数据）
++ 当后台任务启动后，我们启用第二个button，用来取消后台任务的运行
+
+```javascript
+import {race, take, put} from 'redux-saga/effects';
+
+function* backgroundTask() {
+    while(true) {
+        // .....
+    }
+}
+
+function* watchStartBackgroundTask() {
+    while(true) {
+        yield take('START_BACKGROUND_TASK');
+        yield race({
+            task: call(backgroundTask),
+            cancel: take('CANCEL_TASK')
+        });
+    }
+}
+```
+
+当一个`CANCEL_TASK` action被发出后，`race`会自动取消`backgroundTask`的运行，同过在它里面抛一个取消错误；
+
+## 使用`yield*`来对Sagas排序 Sequencing Sagas via yield*
+
+你可以使用內建的`yield*`操作符通过排序的方式组合多个Saga。这样可以用一种简单的编程风格对宏观的任务进行排序了。
+
+```javascript
+function* playLevelOne() {
+    //...statement
+}
+function* playLevelTwo() {
+    //...statement
+}
+function* playLevelThree() {
+    //...statement
+}
+
+function* game() {
+    const score1 = yield* playLevelOne()
+    yield put(showScore(score1));
+
+    const score2 = yield* playLevelTwo();
+    yield put(showScore(score2));
+
+    const score3 = yield* playLevelThree();
+    yield put(showScore(score3));
+}
+```
+注：使用`yield*`会让Javascript运行时蔓延到整个序列。结果的迭代器（从`game()`来）会产出所有嵌套迭代器的结果值。更强大的解决方案是使用普通的中间件组合机制；
