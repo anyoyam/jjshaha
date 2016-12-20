@@ -1,24 +1,71 @@
 <!-- MarkdownTOC -->
 
 - 基础概念（Basic Concepts）
+    - call函数
+    - put函数
+    - select函数
+    - takeEvery函数
+    - takeLatest函数
 - 高级概念（Advanced Concepts）
     - 拉取未来Action \[监听actions\] take函数
     - 非阻塞的call （Non-blocking calls）fork函数 cancel函数 cancelled函数
     - 任务并行运行 Running Tasks in Parallel
     - 多任务的比赛 Staring a race between multiple Effects
-    - 使用`yield*`来对Sagas排序 Sequencing Sagas via yield*
+    - 使用`yield*`来对Sagas排序 Sequencing Sagas via `yield*`
+    - 组合Sagas Composing Sagas
+    - 取消任务 Task cancellation
+    - Redux Saga 派生模型 redux-saga's fork model
+    - 通用并发模型 Common Concurrency Patterns
+    - Saga连接外部输入输出 Connecting Sagas to external Input/Output
+    - 使用频道 Using Channels
 
 <!-- /MarkdownTOC -->
 
 
 # 基础概念（Basic Concepts）
 
-### call函数
-### put函数
-### select函数
+## call函数
 
-### takeEvery函数
-### takeLatest函数
+**`call(fn, ...args)`**
+
+创建一个Effect描述用来指示中间件调用函数`fn`，并将`args`作为参数。
+
+    - `fn: Function` 一个Generator函数，或者是一个返回一个Promise的普通函数，或其他任意类型
+    - `args: Array<any>` 一个值的数组，将会被传入`fn`作为参数
+
+> `fn`可以是一个普通或者Generator函数。
+> 中间件会请求这个函数并判断它的返回值。
+> - 如果返回值是一个迭代对象，中间件将会运行那个Generator函数，就像它对启动Generator（在启动时传递给中间件的）做的一样。
+> - 如果返回值是一个Promise，中间件会在Promise被resolve前挂起这个Generator，Generator将会带着resolve的结果继续运行，或者Generator抛出一个内部异常。
+> - 如果返回值既不是一个迭代对象也不是一个Promise，中间件将立即将这个值返回给sago，这样它就可以继续它的同步地执行。
+>
+> 当Generator内部抛出一个异常。如果当前的`yield`指令被`try/catch`块包裹，控制将被传递到`catch`块中。否则，Generator将会被这个异常终止掉，如果这个Generator是被另外一个Genreator调用，这个异常将会传递给调用的Generator。
+
+**`call([context, fn], ...args)`** 指定`fn`运行的上下文
+
+## put函数
+
+**`put(action)`**
+
+创建一个Effect描述用来指示中间件派发一个action到store中。这个effect是非阻塞的，任何下游抛出的异常将会冒泡回到saga
+
+    - `action: Object` 普通的Redux Action对象 {type: "SOME_TYPE", payload: {name: "test"}}
+
+## select函数
+
+**`select(selector, ...args)`**
+
+创建一个Effect用来指示中间件在当前Store的state上执行提供的选择器函数。（例如：返回`selector(getState(), ...args)`的结果）
+
+    - `selector: Function` 一个格式为`(state, ...args) => args`的函数。获取当前的state和一些可选的参数，然后返回当前Store中state的部分集合
+    - `args: Array<any>` 可选参数，将会传递给selector，追加给`getState`
+
+如果`select`被无参的情况下调用(`yield select()`)，这个Effect将会返回整个state（和调用`getState()`一样的结果）。
+
+> 注：需要注意当一个action分发给store时，中间件首先会转向去处理action，然后再通知Saga，这意味着当你查询Store的state时，你获取的state是action应用后的state。当然，这个行为在你所有的次生中间件**同步**调用`next(action)`时是可以确保的；如果次生中间件**异步**调用`next(action)`（不常用但有可能），这时，sage将会在action被应用前获取到state。因此建议检查每一个次生中间件的源，确保它是同步调用`next(action)`，或者确保redux-saga是调用链中最后一个中间件。
+
+## takeEvery函数
+## takeLatest函数
 
 # 高级概念（Advanced Concepts）
 
@@ -91,7 +138,7 @@ function* loginFlow() {
 
 ```javascript
 const a = yield fork(func, arg1, arg2);
-yield cacel(a);
+yield cancel(a);
 ```
 
 当一个子任务在被终止时可以通过`cancelled`函数来判断，执行一个撤销逻辑，防止由于撤销任务导致的状态不一致；
@@ -110,7 +157,7 @@ function* task(arg1, arg2) {
 }
 ```
 
-*CALL*
+**CALL**
 
 ```javascript
 import {take, call, put} from 'redux-saga/effects';
@@ -139,6 +186,8 @@ function* loginFlow() {
 }
 
 ```
+
+**FORK**
 
 ```javascript
 import {take, put, call, fork, cancel, cancelled} from 'redux-saga/effects';
@@ -249,7 +298,7 @@ function* watchStartBackgroundTask() {
 
 当一个`CANCEL_TASK` action被发出后，`race`会自动取消`backgroundTask`的运行，同过在它里面抛一个取消错误；
 
-## 使用`yield*`来对Sagas排序 Sequencing Sagas via yield*
+## 使用`yield*`来对Sagas排序 Sequencing Sagas via `yield*`
 
 你可以使用內建的`yield*`操作符通过排序的方式组合多个Saga。这样可以用一种简单的编程风格对宏观的任务进行排序了。
 
@@ -276,3 +325,74 @@ function* game() {
 }
 ```
 注：使用`yield*`会让Javascript运行时蔓延到整个序列。结果的迭代器（从`game()`来）会产出所有嵌套迭代器的结果值。更强大的解决方案是使用普通的中间件组合机制；
+
+## 组合Sagas Composing Sagas
+
+使用`yield*`提供的一个符合语言习惯的组合Saga，这种处理有一些限制：
+
+- 有可能对独立的嵌套generator进行测试。这会导致多重测试代码同时也会产生重复的执行开销。我们不会执行内嵌的generator，但是要确保调用它使传入正确的参数。
+- 更重要的是，`yield*`只允许连续的任务组合，所以你只能在同一时间`yield*`一个generator。
+
+你可以简单的使用`yield`来开启一个或多个平行的子任务。当yield一个call到一个generator时，Saga会在继续处理前等待generator运行完毕，然后带上返回值接着运行（或者抛出子任务中的异常）。
+
+```javascript
+function* fetchPosts() {
+    yield put(actions.requestPosts());
+    const products = yield call(fetchApi, '/products');
+    yield put(actions.receivePosts(products));
+}
+
+function* watchFetch() {
+    while (yield take(FETCH_POSTS)) {
+        yield call(fetchPosts);
+    }
+}
+```
+
+yield一个内嵌generator数组会以并行方式启动所有的子generator，等待它们全部结束，然后带着所有结果继续
+
+```javascript
+function* mainSaga(getState) {
+    const results = yield [call(task1), call(task2), ...];
+    yield put(showResults(results));
+}
+```
+
+事实上，yield Saga与yield其他effect（未来action，运行超时，等等）没有区别。这意味着你可以使用effect合并器将这些Saga与其他类型进行合并。
+
+举例，你也许希望用户在一段有限的时间内结束游戏：
+
+```javascript
+function* game(getState) {
+    let finished;
+    while (!finished) {
+        const {score, timeout} = yield race({
+            score: call(play, getState),
+            timeout: call(delay, 60000)
+        });
+    }
+
+    if (!timeout) {
+        finished = true;
+        yield put(showScore(score));
+    }
+}
+```
+
+## 取消任务 Task cancellation
+
+## Redux Saga 派生模型 redux-saga's fork model
+
+## 通用并发模型 Common Concurrency Patterns
+
+    - takeEvery
+    - takeLatest
+
+## Saga连接外部输入输出 Connecting Sagas to external Input/Output
+
+## 使用频道 Using Channels
+
+- 如何使用`yield actionChannel` Effect来缓存从Store来的指定actions
+- 如何使用`eventChannel`工厂函数来连接`take` Effect与外部的事件源
+- 如何使用普通的`channel`工厂函数创建一个频道并且如何使用它在`take`/`put` Effect中关联两个Saga
+
