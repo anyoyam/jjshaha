@@ -1,3 +1,14 @@
+<!-- MarkdownTOC -->
+
+- 基础概念（Basic Concepts）
+- 高级概念（Advanced Concepts）
+    - 拉取未来Action \[监听actions\] take函数
+    - 非阻塞的call （Non-blocking calls）fork函数 cancel函数 cancelled函数
+    - 任务并行运行 Running Tasks in Parallel
+
+<!-- /MarkdownTOC -->
+
+
 # 基础概念（Basic Concepts）
 
 ### call函数
@@ -96,3 +107,90 @@ function* task(arg1, arg2) {
     }
 }
 ```
+
+*CALL*
+
+```javascript
+import {take, call, put} from 'redux-saga/effects';
+import Api from '....';
+
+function* authorize(user, password) {
+    try {
+        const token = yield call(Api.authorize, user, password);
+        yield put({type: 'LOGIN_SUCCESS', token});
+        return token;
+    } catch(error) {
+        yield put({type: 'LOGIN_ERROR', error});
+    }
+}
+
+function* loginFlow() {
+    while(true) {
+        const {user, passwd} = yield take('LOGIN_REQUEST');
+        const token = yield call(authorize, user, passwd);
+        if (token) {
+            yield call(Api.storeItem, {token});
+            yield take('LOGOUT');
+            yield call(Api.cleanItem, 'token');
+        }
+    }
+}
+
+```
+
+```javascript
+import {take, put, call, fork, cancel, cancelled} from 'redux-saga/effects';
+import Api from '....';
+
+function* authorize(user, password) {
+    try {
+        const token = yield call(Api.authorize, user, password);
+        yield put({type: 'LOGIN_SUCCESS', token});
+        yield call(Api.storeItem, {token});
+        return token;
+    } catch(error) {
+        yield put({type: 'LOGIN_ERROR', error});
+    } finally {
+        if (yield cancelled()) {
+            // cleanup
+            // .....statement·
+        }
+    }
+}
+
+function* loginFlow() {
+    while(true) {
+        const {user, passwd} = yield take('LOGIN_REQUEST');
+        // fork会返回一个任务对象
+        const task = yield fork(authorize, user, passwd);
+        const action = yield take(['LOGOUT', 'LOGIN_ERROR']);
+        if (action.type == 'LOGOUT') {
+            yield cancel(task);
+        }
+        yield call(Api.clearItem, 'token');
+    }
+}
+```
+> 并发不是那么简单的，处理时需要谨慎考虑各个逻辑点；
+
+## 任务并行运行 Running Tasks in Parallel
+
+`yield`语法很好的用一种简单线性的方式描述了异步的控制流，但有时我们需要平行做一些事，我们不能简单的这样写：
+
+```javascript
+const users = yield call(fetch, '/users'),
+      repos = yield call(fetch, '/repos');
+```
+
+因为第二个Effect在第一个call没有被resolve前是不会执行的，但是可以这样写：
+
+```javascript
+import {call} from 'redux-saga/effects';
+
+const [users, repos] = yield [
+    call(fetch, '/users'),
+    call(fetch, '/repos')
+];
+```
+
+当我们yield一个effect数组时，generator会在**所有effect**都被resolve或者**其中一个**被reject之前阻塞。
