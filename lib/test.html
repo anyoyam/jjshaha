@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./main.min.js"></script>
+</head>
+<body>
+    <script>
+function firstFn(next, err, arg1, arg2, arg3) {
+    console.log(arg1, arg2, arg3);  // 1, 2, 3
+    //dosomething...
+    next('haha');
+}
+var a = new asyncFun(firstFn);
+a.run(1, 2, 3);
+    </script>
+</body>
+</html>
