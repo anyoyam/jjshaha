@@ -24,6 +24,9 @@ body {
     min-height: 170px;
     float: left;
 }
+.box > div {
+  margin-bottom: 10px;
+}
 ul, li, dl, dt, dd {
     margin: 0;
     padding: 0;
@@ -81,13 +84,14 @@ div.iamaswitch {
   background-color: #999;
   width: 50px;
   height: 22px;
-  border-radius: 11px;
   position: relative;
+}
+div.iamaswitch.circle {
+  border-radius: 11px;
 }
 div.iamaswitch i {
   width: 20px;
   height: 20px;
-  border-radius: 50%;
   background-color: #fff;
   display: block;
   position: absolute;
@@ -96,10 +100,48 @@ div.iamaswitch i {
   transition: left ease-in .1s;
   -webkit-transition: left ease-in .1s;
 }
+div.iamaswitch.circle i {
+  border-radius: 50%;
+}
 div.iamaswitch.on {
   background-color: #FF6600;
 }
 div.iamaswitch.on i {
   left: 29px;
+}
+label.iamacheckbox {
+  cursor: pointer;
+}
+label.iamacheckbox b {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  /*border: 1px solid #ccc;*/
+  box-shadow: 0 0 3px #aaa;
+  background-color: #fff;
+  box-sizing: content-box;
+  font-size: 0;
+  vertical-align: middle;
+  margin-right: -13px;
+}
+label.iamacheckbox b::after {
+  display: inline-block;
+  content: '\20';
+  width: 7px;
+  height: 7px;
+  margin: 3px;
+  background-color: transparent;
+}
+label.iamacheckbox.checked b::after {
+  background-color: #ff6600;
+}
+label.iamacheckbox.circle b,
+label.iamacheckbox.circle b::after {
+  border-radius: 50%;
+}
+label.iamacheckbox span {
+    display: inline-block;
+    padding-left: 20px;
+    vertical-align: middle;
 }
 /*end*/
