@@ -9,6 +9,21 @@
 <body>
 <div class="container">
     <div class="box">
+        <h3>CSS3选择器</h3>
+        <pre style="width: 100%;white-space: pre-line;">
+E[att] 选择具有att的E元素
+E[att="val"] 选择具有att属性且属性值等于val的E元素
+E[att~="val"] 选择具有att属性且属性值为一用空格分隔的字词列表，其中一个等于val的E元素（包含只有一个值且该值等于val的情况）
+E[att^="val"] 选择具有att属性且属性值为以val开头的字符串的E元素
+E[att$="val"] 选择具有att属性且属性值为以val结尾的字符串的E元素
+E[att*="val"] 选择具有att属性且属性值为包含val的字符串的E元素
+E[att|="val"] 选择具有att属性且属性值为以val开头并用连接符"-"分隔的字符串的E元素，如果属性值仅为val，也将被选择
+E:not(s) 匹配不含有s选择符的元素E
+E+F 选择紧贴在E元素之后F元素
+E~F 选择E元素后面的所有兄弟元素F
+        </pre>
+    </div>
+    <div class="box">
         <h3>下拉框示例</h3>
         <div class="iamaselect">
             <b>无早</b>
@@ -29,25 +44,18 @@
         <div class="iamaswitch circle"><i></i></div>
     </div>
     <div class="box">
-        <h3>checkbox示例</h3>
+        <h3>checkbox/radio示例</h3>
         <div><label class="iamacheckbox"><b></b><span>全选</span></label></div>
         <div><label class="iamacheckbox circle"><b></b><span>全选</span></label></div>
         <div><label class="iamacheckbox"><b></b><span>全选全选全选全选全选全选全选全选全选全选全选全选</span></label></div>
+        <div>
+        <label class="iamacheckbox" data-group="sex"><b></b><span>男</span></label>
+        <label class="iamacheckbox circle" data-group="sex"><b></b><span>女</span></label>
+        </div>
     </div>
     <div class="box">
-        <h3>CSS3选择器</h3>
-        <pre>
-            E[att] 选择具有att的E元素
-            E[att="val"] 选择具有att属性且属性值等于val的E元素
-            E[att~="val"] 选择具有att属性且属性值为一用空格分隔的字词列表，其中一个等于val的E元素（包含只有一个值且该值等于val的情况）
-            E[att^="val"] 选择具有att属性且属性值为以val开头的字符串的E元素
-            E[att$="val"] 选择具有att属性且属性值为以val结尾的字符串的E元素
-            E[att*="val"] 选择具有att属性且属性值为包含val的字符串的E元素
-            E[att|="val"] 选择具有att属性且属性值为以val开头并用连接符"-"分隔的字符串的E元素，如果属性值仅为val，也将被选择
-            E:not(s) 匹配不含有s选择符的元素E
-            E+F 选择紧贴在E元素之后F元素
-            E~F 选择E元素后面的所有兄弟元素F
-        </pre>
+        <h3>number示例</h3>
+        <div><span class="iamanumber" data-min="0"><i>-</i><input type="text" value="0"/><i>+</i></span></div>
     </div>
 </div>
     <script src="js.js"></script>

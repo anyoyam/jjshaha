@@ -144,4 +144,29 @@ label.iamacheckbox span {
     padding-left: 20px;
     vertical-align: middle;
 }
+span.iamanumber {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  width: 100px;
+  height: 25px;
+  display: inline-block;
+}
+span.iamanumber i {
+  display: inline-block;
+  width: 30%;
+  height: 100%;
+  text-align: center;
+  font-style: normal;
+  cursor: pointer;
+}
+span.iamanumber input {
+  display: inline-block;
+  width: 40%!important;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-width: 0 1px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  text-align: center;
+}
 /*end*/
