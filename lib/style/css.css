@@ -21,7 +21,7 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px #ccc;
     margin: 10px;
-    min-height: 170px;
+    /*min-height: 170px;*/
     float: left;
 }
 .box > div {
@@ -132,8 +132,16 @@ label.iamacheckbox b::after {
   margin: 3px;
   background-color: transparent;
 }
+label.iamacheckbox.tick b::after {
+  width: 12px;
+  height: 12px;
+  margin: 1px;
+}
 label.iamacheckbox.checked b::after {
   background-color: #ff6600;
+}
+label.iamacheckbox.tick.checked b::after {
+  background: url('data:image/gif;base64,R0lGODlhCgAHAIABAP94AAAAACH5BAEAAAEALAAAAAAKAAcAAAIPjG8AeOr4XpDTKWZZWqgAADs=') center no-repeat;
 }
 label.iamacheckbox.circle b,
 label.iamacheckbox.circle b::after {
