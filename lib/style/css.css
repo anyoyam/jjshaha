@@ -44,6 +44,17 @@ div.iamaselect b {
   font-weight: bold;
   padding: 5px 10px;
   display: block;
+  padding-right: 20px;
+  position: relative;
+}
+div.iamaselect b input {
+  display: inline-block;
+  width: 80px;
+  height: 25px;
+  border: 1px solid #ddd;
+  padding: 2px 5px;
+  outline: 0;
+  box-sizing: border-box;
 }
 div.iamaselect b::after {
   display: block;
@@ -52,8 +63,10 @@ div.iamaselect b::after {
   content: '\20';
   border: 6px solid #eee;
   border-color: #ccc transparent transparent transparent;
-  float: right;
-  margin-top: .5em;
+  margin-top: -3px;
+  position: absolute;
+  top: 50%;
+  right: 5px;
 }
 div.iamaselect ul {
   position: absolute;
