@@ -1,6 +1,6 @@
 有使用中的问题或者发现bug欢迎反馈 :-p
 
-企业QQ：[![反馈反馈..](http://wpa.qq.com/pa?p=2:2885201456:51)](http://wpa.qq.com/msgrd?v=3&uin=2885201456&site=qq&menu=yes)
+QQ：[![反馈反馈..](http://wpa.qq.com/pa?p=2:2521428188:51)](http://wpa.qq.com/msgrd?v=3&uin=2521428188&site=qq&menu=yes)
 
 # CHANGELOG
 
@@ -18,6 +18,7 @@
 
 - `.level([log|throw]|fn)` 遇到异常时的处理方式
 - `.then(fn)` 用来添加next step方法
+- `.fork(ob)` 用来添加分叉next step方法 - **new**
 - `.run([args])` 用来开始运行队列方法
 
 ## FUNCTION
@@ -91,7 +92,32 @@ a.level('log').then(someFn2).run();
 
 **注** 在上面的例子中当请求异常时，会调用`err(...)`方法，如果`.level()`是 *log* 模式，则会在控制台输出异常信息后，继续执行下一跳`next()`方法；如果是 *throw* 模式怎会抛出异常并停止运行下面的方法；
 
-----
+### <a name="tc-asyncfun/function/fork">`.fork(object)`</a> **new**
+
+> 用来添加分叉下一跳
+
+#### Sample
+
+```javascript
+var a = new asyncFun(false, this);
+a.then(function(n, e, d) {
+    console.log('balabala...');
+    if (d.type == 1) {
+        next({flag: 'check', data: d.data})
+    } else {
+        next({flag: 'find', data: d.data});
+    }
+});
+a.fork({
+    check: function(n, e, d) {
+        console.log(111); n();
+    },
+    find: function(n, e, d) {
+        console.log(222); n();
+    }
+});
+a.run();
+```
 
 ### <a name="tc-asyncfun/function/run">`.run([args])`</a>
 
