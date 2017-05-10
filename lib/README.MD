@@ -66,11 +66,14 @@ a.level(function(s) {
 
 ----
 
-### <a name="tc-asyncfun/function/then">`.then(fn)`</a>
+### ~~<a name="tc-asyncfun/function/then">`.then(fn)`</a>~~
+### <a name="tc-asyncfun/function/then">`.then(fn, ctxt)`<a/>
 
 > 用来添加下一跳的方法，方法有三个参数 next, err, retn
 
 > 2016-7-13日更新：添加第三个参数retn用来给下一跳传递上一跳的返回值；之前只能通过asyncFun的实例参数获取上一跳的返回值；现在可以直接在方法中接受这个返回值了（第三个参数）
+
+> 2017-5-10更新：支持在`then`时就指定运行上下文，上下文符合就近原则，上一个方法调用`next(data, ctxt)` > `then(fn, ctxt)` > `asyncFun构造函数`传入的ctxt
 
 #### Sample
 
@@ -87,14 +90,20 @@ function someFn2(next, err, retn) {
     console.log(retn); //{....}
 }
 var a = new asyncFun(someFn);
-a.level('log').then(someFn2).run();
+a.level('log')
+.then(someFn2)
+.then(function(n, e) {}, someObj)
+.run();
 ```
 
 **注** 在上面的例子中当请求异常时，会调用`err(...)`方法，如果`.level()`是 *log* 模式，则会在控制台输出异常信息后，继续执行下一跳`next()`方法；如果是 *throw* 模式怎会抛出异常并停止运行下面的方法；
 
-### <a name="tc-asyncfun/function/fork">`.fork(object)`</a> **new**
+### ~~<a name="tc-asyncfun/function/fork">`.fork(object)`</a> **new**~~
+### <a name="tc-asyncfun/function/fork">`.fork(object, ctxt)`</a> **new**
 
 > 用来添加分叉下一跳
+
+> 2017-5-10更新：指定上下文，参看`then(fn, ctxt)`部分的说明
 
 #### Sample
 
@@ -115,7 +124,10 @@ a.fork({
     find: function(n, e, d) {
         console.log(222); n();
     }
-});
+}).fork({
+    a: function(n, e, d) {},
+    b: function(n, e, d) {}    
+}, someObj);
 a.run();
 ```
 
