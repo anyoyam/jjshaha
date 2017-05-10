@@ -66,7 +66,7 @@ a.level(function(s) {
 
 ----
 
-### ~~<a name="tc-asyncfun/function/then">`.then(fn)`</a>~~
+### ~~`.then(fn)`~~
 ### <a name="tc-asyncfun/function/then">`.then(fn, ctxt)`<a/>
 
 > 用来添加下一跳的方法，方法有三个参数 next, err, retn
@@ -98,7 +98,7 @@ a.level('log')
 
 **注** 在上面的例子中当请求异常时，会调用`err(...)`方法，如果`.level()`是 *log* 模式，则会在控制台输出异常信息后，继续执行下一跳`next()`方法；如果是 *throw* 模式怎会抛出异常并停止运行下面的方法；
 
-### <del><a name="tc-asyncfun/function/fork">`.fork(object)`</a> **new**</del>
+### ~~`.fork(object)` **new**~~
 ### <a name="tc-asyncfun/function/fork">`.fork(object, ctxt)`</a> **new**
 
 > 用来添加分叉下一跳
