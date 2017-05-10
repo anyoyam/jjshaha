@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="lib/map/index.js" type="text/javascript"></script>
+    <style>
+      label {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+  <label title="bd09">百度坐标：<input class="coord" id="coord_bd" /></label>
+  <label title="gcj02">火星坐标：<input class="coord" id="coord_gc" /></label>
+  <label title="wgs84">WGS84坐标：<input class="coord" id="coord_wg" /></label>
+  <button id="trans">转换</button> <button id="reset">重置</button>
+  <script>
+    !function(a, b, undefined){
+      var id = function(z) {return b.getElementById(z);},
+          bd = id("coord_bd"),
+          gc = id("coord_gc"),
+          wg = id("coord_wg"),
+          re = id("reset"),
+          tr = id("trans");
+      [bd, gc, wg].forEach(function(i){
+        i.addEventListener("click", function() {
+          this.select();
+        }, false);
+      })
+      re.addEventListener("click", function() {
+        bd.value = "";
+        gc.value = "";
+        wg.value = "";
+      })
+      tr.addEventListener("click", function() {
+        var a = bd.value,
+          b = gc.value,
+          c = wg.value, d, e;
+        if (a != "" && b == "" && c == "") { // 百度 转 火星+wgs84
+          d = a.split(",");
+          e = coordtransform.bd09togcj02(d[0], d[1]);
+          gc.value = e.join(",");
+          wg.value = coordtransform.gcj02towgs84(e[0], e[1]).join(",")
+        } else if (a == "" && b != "" && c == "") { // 火星 转 百度+wgs84
+          d = b.split(",");
+          bd.value = coordtransform.gcj02tobd09(d[0], d[1]).join(",");
+          wg.value = coordtransform.gcj02towgs84(d[0], d[1]).join(",");
+        } else if (a == "" && b == "" && c != "") { // wgs84 转 百度+火星
+          d = c.split(",");
+          e = coordtransform.wgs84togcj02(d[0], d[1]);
+          gc.value = e.join(",");
+          bd.value = coordtransform.gcj02tobd09(e[0], e[1]).join(",");
+        } else {
+          bd.value = "";
+          gc.value = "";
+          wg.value = "";
+        }
+      });
+    }(window, document);
+  </script>
+  </body>
+</html>
