@@ -26,6 +26,9 @@
 |:boom:|boom|介绍重大更新|:bento:|bento|添加/更新assets|
 |:ok_hand:|ok_hand|由于codereview的改变更新代码|:wheelchair:|wheelchair|提高便捷性|
 |:bulb:|bulb|文档注释| | | |
+| | | | | |2017年6月21日|
+|:beers:|beers|醉酒写的代码|:speech_balloon:|speech_balloon|更新文本和字面量|
+|:card_file_box:|card_file_box|执行数据库关系改变| | | |
 
 # links
 
