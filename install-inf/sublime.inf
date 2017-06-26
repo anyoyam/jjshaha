@@ -1,0 +1,26 @@
+[version]
+signature="$CHICAGO$"
+AdvancedINF=2.0
+
+[DefaultInstall]
+AddReg=AddRegMain
+
+[DefaultUninstall]
+;DelReg=DelRegMain
+
+[AddRegMain]
+HKCR,".sublime-project",,,"sublime-project.file"
+HKCR,".sublime-project\ShellNew",,,""
+HKCR,".sublime-project\ShellNew","NullFile",,""
+;HKCR,".sublime-project\ShellNew","FileName",,"%1%\\template.sublime-project"
+HKCR,".sublime-project\ShellNew","FileName",,"D:\Program Files\Sublime Text 3\template.sublime-project"
+
+HKCR,"sublime-project.file",,,"Sublime Project"
+HKCR,"sublime-project.file\DefaultIcon",,,"D:\Program Files\Sublime Text 3\sublime_text.exe,0"
+HKCR,"sublime-project.file\shell",,,""
+HKCR,"sublime-project.file\shell\open",,,""
+HKCR,"sublime-project.file\shell\open\command",,,"D:\Program Files\Sublime Text 3\sublime_text.exe """%1""""
+
+[DelRegMain]
+HKCR,".sublime-project"
+HKCR,"sublime-project.file"

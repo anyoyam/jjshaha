@@ -1,0 +1,21 @@
+[version]
+signature="$CHICAGO$"
+AdvancedINF=2.0
+
+[DefaultInstall]
+AddReg=AddRegMain
+
+[DefaultUninstall]
+;DelReg=DelRegMain
+
+[AddRegMain]
+HKCR,"Directory\Background\shell\gitbash",,,"GitBash"
+HKCR,"Directory\Background\shell\gitbash","Icon",,"%1%\mingw64\share\git\git-for-windows.ico"
+HKCR,"Directory\Background\shell\gitbash\command",,,"%1%\bin\bash.exe --login -i"
+;HKCR,"Directory\Background\shell\gitgui",,,"Git &GUI Here"
+;HKCR,"Directory\Background\shell\gitgui","Icon",,"%1%\mingw64\share\git\git-for-windows.ico"
+;HKCR,"Directory\Background\shell\gitgui\command",,,"%1%\cmd\git-gui.exe --working-dir %1"
+
+[DelRegMain]
+HKCR,"Directory\Background\shell\gitbash"
+;HKCR,"Directory\Background\shell\gitgui"
