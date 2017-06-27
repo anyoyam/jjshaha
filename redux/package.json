@@ -15,9 +15,9 @@
     "webpack": "^3.0.0"
   },
   "scripts": {
-    "dev": "rm -rf -y dist/* && webpack --display-modules --progress --display-error-details --display --watch",
-    "release": "rm -rf dist/* && webpack --display-modules --progress --display-error-details --display",
-    "clean": "rm -rf dist/*"
+    "dev": "rm -rf ./dist/* && webpack  -p --progress --colors --display-modules --watch",
+    "release": "rm -rf ./dist/* && webpack -p --progress --colors --display-modules",
+    "clean": "rm -rf ./dist/*"
   },
   "author": "fen <yf28171@ly.com>",
   "license": "ISC"
