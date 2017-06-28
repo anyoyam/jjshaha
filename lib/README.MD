@@ -71,9 +71,10 @@ a.level(function(s) {
 
 > 用来添加下一跳的方法，方法有三个参数 next, err, retn
 
-> 2016-7-13日更新：添加第三个参数retn用来给下一跳传递上一跳的返回值；之前只能通过asyncFun的实例参数获取上一跳的返回值；现在可以直接在方法中接受这个返回值了（第三个参数）
+> 2016-7-13更新：添加第三个参数retn用来给下一跳传递上一跳的返回值；之前只能通过asyncFun的实例参数获取上一跳的返回值；现在可以直接在方法中接受这个返回值了（第三个参数）
 
 > 2017-5-10更新：支持在`then`时就指定运行上下文，上下文符合就近原则，上一个方法调用`next(data, ctxt)` > `then(fn, ctxt)` > `asyncFun构造函数`传入的ctxt
+
 
 #### Sample
 
@@ -155,8 +156,11 @@ a.run(1, 2, 3);
 
 ### `next(retn, context)`
 
-> 该方法有两个参数，在运行方法中可通过`retn`将参数传递到下一跳的方法中，在下一跳方法中通过实体的`.retn`属性获取；`context`为指定下一跳方法的运行上下文；
+> 该方法有两个参数，在运行方法中可通过`retn`将参数传递到下一跳的方法中<del>，在下一跳方法中通过实体的`.retn`属性获取</del>；`context`为指定下一跳方法的运行上下文；
+
 > 2016年7月13日更新：也可以直接通过方法的第三个参数来获取返回值；参见[.then(fn)](#then)部分
+
+> 2017-6-28更新：next函数支持指定指令，目前支持`_cacheset(key, value)`，`_cacheget(key, default)`，`_cacherm(key)`，`_cacheclean()`，用于缓存数据；也可以通过asyncFun实例的cache对象来操作缓存`.cache[.(set|get|rm|clean)(key, value)]`...
 
 #### Sample
 
@@ -173,10 +177,12 @@ a.then(function(next, err) {
 }).then(function(next, err) {
     console.log(a.retn); // null
     console.log(this); //jquery对象
+	next("_cacheset", "data", {a: 123}); // 缓存数据 data
     next(123, {a: function(m){console.log(m)}});  //<-这里改变上下文
 }).then(function(next, err) {
     console.log(a.retn); // 123
     console.log(this); // {a:....}  上一跳改变了上下文
+	var data = next("_cacheget", "data", {}); // 获取缓存数据 data 如果没有值则为 {}
     this.a('hahahah....'); // hahahah...
 }).run();
 ```
@@ -200,6 +206,38 @@ a.then(function(next, err) {
     //do something...
     next();
 }).then(function(next, err) {
+    //do something...
+    next();
+}).run();
+```
+
+### `.cache.[set|get|rm|clean]`
+
+> 运行中缓存临时数据
+
+`.cache.set(key, value)` 缓存一个key值
+
+`.cache.get(key, [default])` 获取key值，没有则返回default值
+
+`.cache.rm(key)` 删除一个key值
+
+`.cache.clean()` 清空缓存
+
+```javascript
+import afun from 'asyncFun';
+var a = new afun(function(next, err){
+    a.cache.set("data", {a: 123});
+    // equal
+    // next("_cacheset", "data", {a: 123});
+    next();
+});
+a.then(function(next, err) {
+    //do something...
+    next();
+}).then(function(next, err) {
+    var data = a.cache.get("data", []);
+    //equal
+    // var data = next("_cacheget", "data", []);
     //do something...
     next();
 }).run();
