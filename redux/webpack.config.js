@@ -1,6 +1,6 @@
 let webpack = require('webpack')
 // importing plugins that do not come by default in webpack
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
+// let ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 module.exports = {

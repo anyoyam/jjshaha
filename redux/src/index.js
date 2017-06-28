@@ -21,28 +21,28 @@ class testActions {
   }
 }
 
-
-function add(stat = [], action) {
-  if (action.type === "ADD_ITEM_A") {
-    return [...stat, action.text]
-  } else if (action.type === "REMOVE_ITEM_A") {
-    let tmp = [...stat];
-    tmp.splice(action.index, 1);
-    return tmp;
+class testReducers {
+  static add(stat = [], action) {
+    if (action.type === "ADD_ITEM_A") {
+      return [...stat, action.text]
+    } else if (action.type === "REMOVE_ITEM_A") {
+      let tmp = [...stat];
+      tmp.splice(action.index, 1);
+      return tmp;
+    }
+    return stat;
   }
-  return stat;
-}
-function del(stat = [], action) {
-  if (action.type === "REMOVE_ITEM") {
-    let tmp = [...stat];
-    tmp.splice(action.index, 1);
-    return tmp;
+  static del(stat = [], action) {
+    if (action.type === "REMOVE_ITEM") {
+      let tmp = [...stat];
+      tmp.splice(action.index, 1);
+      return tmp;
+    }
+    return stat;
   }
-  return stat;
 }
 
-
-let main = combineReducers({add, del});
+let main = combineReducers({add: testReducers.add, del: testReducers.del});
 let store = createStore(main, {add: [1,2,4,5,6,7], del: ['a', 'b', 'c']});
 
 console.log(store.getState());
