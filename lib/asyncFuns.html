@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../require.js"></script>
+    <script src="tool.js"></script>
+</head>
+<body>
+    <script>
+        var util = require("tool.js");
+        var af = util.funs(function(n, e, d) { // 0
+            n("_cacheset", "key", "xhxiang");
+            if (d == 1) {
+                n("_goto", 2)(this.name);
+            } else {
+                n();
+            }
+        }, {name: "xiang", age: "12"})
+        .then(function(n, e, d, i) { // 1
+            e(i + ":第二跳出现异常");
+        })
+        .then(function(n, e, d) { // 2
+            console.log(d);
+            n("_log", "输出正常日志", this)(this.age);
+        })
+        .then(function(n, e, d) { // 3
+            console.log(d);
+            n("_err", "输出错误日志, 跳转到最后一跳")("_goto", 8)("我应该在8跳里面输出");
+        })
+        .then(function(n, e, d) { // 4
+            console.log(d);
+            this.name="wangwenxiang";
+            n();
+        })
+        .then(function(n, e, d) { // 5
+            console.log(d, this);
+            n();
+        })
+        .then(function(n, e, d) { // 6
+            console.log(d);
+            this.age="17";
+            n();
+        })
+        .then(function(n, e, d) { // 7
+            console.log(d, this);
+            n();
+        })
+        .then(function(n, e, d, i) { // 8
+            console.log(d, i);
+            if (d == 8) {
+                n(this);
+                return;
+            }
+            n("_goto", 4)();
+        })
+        .then(function(n, e, d, i) { // 9
+            console.log(d, i);
+            console.log(af.status);
+            debugger;
+            var cache = n("_cacheget", "key", "默认值？？");
+            n("_cacheclean");
+            console.log(cache);
+        });
+
+        af.debug = true;
+        af.filename = "asyncFuns.html";
+        af.varname = "af";
+
+        af.run(prompt("1正常走完流程，2触发异常"));
+    </script>
+</body>
+</html>
