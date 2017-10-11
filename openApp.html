@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" media="(device-height: 568px)" />
+<meta name="format-detection" content="telephone=no" searchtype="map">
+  <title>Document</title>
+</head>
+
+<body>
+  <button onclick="aaa()">aaa</button>
+  <script>
+  var openApp = function(){
+    var r = {
+      callDelay: 2000,
+      delayCallHandle: null,
+      init: function() {
+        document.addEventListener("visibilitychange", this.clear),
+        document.addEventListener("webkitvisibilitychange", this.clear),
+        document.addEventListener("blur", this.clear),
+        document.addEventListener("msvisibilitychange", this.clear),
+        (window.onblur = this.clear);
+      },
+      clear: function() {
+        r.delayCallHandle && clearTimeout(r.delayCallHandle)
+      }
+    };
+    r.init();
+    return function(e, i) {
+      var a = 1;
+      var d = /Chrome\/([\d.]+)/i.test(navigator.userAgent) || /CriOS\/([\d.]+)/i.test(navigator.userAgent);
+      if (/iphone os ([0-9]+)_/i.test(navigator.userAgent) && parseInt(RegExp.$1, 10) >= 9 && !d) {
+        window.location.href = e;
+        var l = (new Date).getTime();
+        setTimeout(function() {
+          var e = "undefined" != typeof document.webkitHidden ? document.webkitHidden : document.hidden;
+          (new Date).getTime() - l < 1550 && !e && setTimeout(function() {
+            a && (location.href=i);
+          }, 100)
+        }, 1500)
+      } else {
+        /iphone os ([0-9]+)_/i.test(navigator.userAgent) && parseInt(RegExp.$1, 10) >= 9 && d && (a = !0);
+        var s = document.createElement('IFRAME');
+        s.width = 0, s.height = 0, s.style.cssText = 'border: 0;display: none;', s.src = e;
+        document.body.appendChild(s);
+      }
+      r.delayCallHandle && clearTimeout(r.delayCallHandle);
+      var w = (new Date).getTime();
+      r.delayCallHandle = setTimeout(function() {
+          if ((new Date).getTime() - w < 3e3) {
+            a && (location.href=i);
+          }
+        }, r.callDelay),
+        p = !0
+    }
+  }();
+  function aaa() {
+     openApp("baidumap://map/direction?origin=34.264642646862,108.95108518068&destination=40.007623,116.360582&mode=driving&src=webapp.navi.yourCompanyName.yourAppName", "http://api.map.baidu.com/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving&region=西安&output=html&src=yourCompanyName|yourAppName")
+  };
+  </script>
+</body>
+
+</html>

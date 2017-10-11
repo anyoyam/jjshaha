@@ -129,3 +129,23 @@
 `git checkout [commit] -- <file>` 检出指定版本的文件
 
 `git reset [commit] -- <file>` 将指定版本文件恢复到暂存区
+    
+# 查看两次提交共同祖先
+
+`get merge-base <commit1> <commit2>`
+    
+
+`git grep` 从提交历史或工作目录查找一个字符串或正则表达式  
+  
+    `-n`      用来显示git找到的匹配行行号  
+    `--count` 用来显示git输出概述信息，仅显示那些文件包含匹配以及每个文件包含多少个匹配  
+    `-p`      显示匹配字符串属于哪个方法或函数  
+  
+`git log -S <keyword>` 显示日志中新增或删除该字符串的提交
+`git log -G <regex>` 用正则表达式来查找
+`git log -L :<keyword>:<file>` 展示代码中一行或者一个函数的历史git会尝试找到这个函数的范围，然后查找历史记录，并显示从函数创建之后一系列变更对应的补丁
+
+> 如果使用`-L`参数时，git无法匹配代码中的函数，可以提供一个正则表达式。`git log -L '<regx1>','<regx2>':<file>`
+> e.g. git log -L :getBound:zlib.c 等同于 git log -L '/function getBound/','/^}/':zlib.c
+
+

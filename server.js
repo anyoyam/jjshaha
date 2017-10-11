@@ -42,3 +42,6 @@ var server = http.createServer((req, res) => {
 	res.end();
 });
 server.listen(19080);
+console.warn("Listening port 19080...");
+console.log("/json?s={a: 1, b: 2}");
+console.log("/jsonfile?filename=../../data/a.json");

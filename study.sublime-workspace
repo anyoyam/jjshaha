@@ -1,0 +1,1350 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"room",
+				"roomSel"
+			],
+			[
+				"su",
+				"SupplierRegionType"
+			],
+			[
+				"Supp",
+				"SupplierRegionCode"
+			],
+			[
+				"prov",
+				"province"
+			],
+			[
+				"news",
+				"newState"
+			],
+			[
+				"Sup",
+				"SupplierRegionType"
+			],
+			[
+				"Suppli",
+				"SupplierRegionCode"
+			],
+			[
+				"res",
+				"resAreaData"
+			],
+			[
+				"sele",
+				"selectedIndex"
+			],
+			[
+				"sel",
+				"selectedIndex"
+			],
+			[
+				"Supplierr",
+				"SupplierRegionType"
+			],
+			[
+				"sw",
+				"switchAreaData"
+			],
+			[
+				"load",
+				"loadResRegionData"
+			],
+			[
+				"pro",
+				"province"
+			],
+			[
+				"roo",
+				"roomSel"
+			],
+			[
+				"supp",
+				"supplierId"
+			],
+			[
+				"sect",
+				"sectionStat"
+			],
+			[
+				"cit",
+				"city"
+			],
+			[
+				"coun",
+				"country"
+			],
+			[
+				"seli",
+				"selItem"
+			],
+			[
+				"selI",
+				"selIndex"
+			],
+			[
+				"mappin",
+				"mappingRoomData"
+			],
+			[
+				"mapping",
+				"mappingHotelData"
+			],
+			[
+				"mapp",
+				"mappingRoomData"
+			],
+			[
+				"base",
+				"baseRoomInfo"
+			],
+			[
+				"Is",
+				"IsMappingTC"
+			],
+			[
+				"fi",
+				"fillList"
+			],
+			[
+				"dATA",
+				"DataFlag"
+			],
+			[
+				"are",
+				"areaRequestBody"
+			],
+			[
+				"loa",
+				"loadAreaData"
+			],
+			[
+				"ra",
+				"rateRequestBody"
+			],
+			[
+				"hotel",
+				"hotelRequestBody"
+			],
+			[
+				"data",
+				"dataSource"
+			],
+			[
+				"Star",
+				"StarRatingDesc"
+			],
+			[
+				"B",
+				"BrandCode"
+			],
+			[
+				"bran",
+				"brandRequestBody"
+			],
+			[
+				"in",
+				"inherit"
+			],
+			[
+				"Tab",
+				"TableRowColumn"
+			],
+			[
+				"Table",
+				"TableHeaderColumn"
+			],
+			[
+				"Tabl",
+				"TableRow"
+			],
+			[
+				"evtc",
+				"evtConfirm"
+			],
+			[
+				"rate",
+				"rateText"
+			],
+			[
+				"provinc",
+				"provinceStat"
+			],
+			[
+				"provin",
+				"provinceStat"
+			],
+			[
+				"location",
+				"locationInfoDataSource"
+			],
+			[
+				"SupplierRegion",
+				"SupplierRegionCode"
+			],
+			[
+				"reque",
+				"hotelRequestBody"
+			],
+			[
+				"brand",
+				"brandInfoDataSource"
+			],
+			[
+				"BASE",
+				"baseRoomInfo"
+			],
+			[
+				"IS",
+				"IsMappingTC"
+			],
+			[
+				"isv",
+				"isValidStat"
+			],
+			[
+				"z",
+				"z-index"
+			],
+			[
+				"disable",
+				"locationDisable"
+			],
+			[
+				"dataso",
+				"datasource"
+			],
+			[
+				"table",
+				"TableRowColumn"
+			],
+			[
+				"Ta",
+				"Table"
+			],
+			[
+				"border-co",
+				"border-collapse"
+			],
+			[
+				"trow",
+				"TableRowColumn"
+			],
+			[
+				"tab",
+				"TableRow"
+			],
+			[
+				"nex",
+				"nextState"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"count",
+				"countryStat"
+			],
+			[
+				"cun",
+				"country"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"backgroun",
+				"background-color"
+			],
+			[
+				"no",
+				"nowrap"
+			],
+			[
+				"margin",
+				"margin-right"
+			],
+			[
+				"borderr",
+				"border-radius"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"hote",
+				"hotelMatch"
+			],
+			[
+				"city",
+				"cityStat"
+			],
+			[
+				"pri",
+				"provinceStat"
+			],
+			[
+				"pr",
+				"province"
+			],
+			[
+				"trans",
+				"transition"
+			],
+			[
+				"init",
+				"initFilter"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"text",
+				"text-overflow"
+			],
+			[
+				"hoteln",
+				"HotelName"
+			],
+			[
+				"ho",
+				"HotelName"
+			],
+			[
+				"de",
+				"debounceLoadMore"
+			],
+			[
+				"g",
+				"gData"
+			],
+			[
+				"fap",
+				"faPiaoData"
+			],
+			[
+				"Inv",
+				"InvoiceType"
+			],
+			[
+				"fapi",
+				"faPiao"
+			],
+			[
+				"fapiao",
+				"faPiaoData"
+			],
+			[
+				"fapiaon",
+				"faPiaoUrlNavigate"
+			],
+			[
+				"Invo",
+				"InvoicePId"
+			],
+			[
+				"j",
+				"join"
+			],
+			[
+				"coord",
+				"coord_gc"
+			],
+			[
+				"backg",
+				"background"
+			],
+			[
+				"text-a",
+				"text-align"
+			],
+			[
+				"alig",
+				"align-items"
+			],
+			[
+				"op",
+				"opacity"
+			],
+			[
+				"deb",
+				"debounceScroll"
+			],
+			[
+				"lat",
+				"latitude"
+			],
+			[
+				"tim",
+				"timer"
+			],
+			[
+				"fetch",
+				"fetchFavoriteData"
+			],
+			[
+				"kwor",
+				"KwordName"
+			],
+			[
+				"over",
+				"overflow"
+			],
+			[
+				"arg",
+				"arguments"
+			],
+			[
+				"und",
+				"undoFilter"
+			],
+			[
+				"search",
+				"searchText"
+			],
+			[
+				"type",
+				"Type"
+			],
+			[
+				"facliti",
+				"facilityList"
+			],
+			[
+				"ov",
+				"overflow"
+			],
+			[
+				"hotelh",
+				"hotelHistoryData"
+			],
+			[
+				"ptuse",
+				"ptuse"
+			],
+			[
+				"id",
+				"Id"
+			],
+			[
+				"sectioni",
+				"sectionId"
+			],
+			[
+				"section",
+				"sectionId"
+			],
+			[
+				"lab",
+				"labelkey"
+			],
+			[
+				"inel",
+				"inline-block"
+			],
+			[
+				"isC",
+				"isClick"
+			],
+			[
+				"last",
+				"lastPostData"
+			],
+			[
+				"rew",
+				"rewrite"
+			],
+			[
+				"scenery",
+				"sceneryId"
+			],
+			[
+				"a",
+				"arg3"
+			],
+			[
+				"bsel",
+				"bseleIndex"
+			],
+			[
+				"curr",
+				"currentTarget"
+			],
+			[
+				"auto",
+				"autoComplete"
+			],
+			[
+				"url",
+				"url_token"
+			],
+			[
+				"ass",
+				"accessToken"
+			],
+			[
+				"wh",
+				"white-space"
+			],
+			[
+				"price",
+				"priceList"
+			],
+			[
+				"glob",
+				"globalDate"
+			],
+			[
+				"globa",
+				"globalFunc"
+			],
+			[
+				"spa",
+				"space-around"
+			],
+			[
+				"v",
+				"visibility"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "disignPattern.md",
+			"settings":
+			{
+				"buffer_size": 16945,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 288.0,
+		"last_filter": "pkgins",
+		"selected_items":
+		[
+			[
+				"pkgins",
+				"Package Control: Install Package"
+			],
+			[
+				"pkgrem",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"pkgin",
+				"Package Control: Install Package"
+			],
+			[
+				"mkpr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pakgin",
+				"Package Control: Install Package"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pkg",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"removepa",
+				"Package Control: Remove Package"
+			],
+			[
+				"theme",
+				"Material Theme: Activate theme"
+			],
+			[
+				"pkgrm",
+				"Package Control: Remove Package"
+			],
+			[
+				"pkglis",
+				"Package Control: List Packages"
+			],
+			[
+				"glue",
+				"Glue - Launch"
+			],
+			[
+				"git log",
+				"Git: Log"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"pkgi",
+				"Package Control: Install Package"
+			],
+			[
+				"mrkdpr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pkginspc",
+				"Package Control: Install Package"
+			],
+			[
+				"pkgrmpc",
+				"Package Control: Remove Package"
+			],
+			[
+				"pkinspck",
+				"Package Control: Install Package"
+			],
+			[
+				"pkginsl",
+				"Package Control: Install Local Dependency"
+			],
+			[
+				"sshtml",
+				"Set Syntax: HTML"
+			],
+			[
+				"sscss",
+				"Set Syntax: CSS"
+			],
+			[
+				"pkgr",
+				"Package Control: Remove Package"
+			],
+			[
+				"markdownp",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"ssjava",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"ssbab",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"File Icon",
+				"File Icons: Settings"
+			],
+			[
+				"list",
+				"File Icons: Settings"
+			],
+			[
+				"Clean",
+				"File Icons: Clean Up"
+			],
+			[
+				"pkglist",
+				"Package Control: List Packages"
+			],
+			[
+				"ssyba",
+				"Set Syntax: Batch File"
+			],
+			[
+				"makdpr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"prev",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"sshtm",
+				"Set Syntax: HTML"
+			],
+			[
+				"ssccs",
+				"Set Syntax: ActionScript"
+			],
+			[
+				"markdpr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"Package Control: lis",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: installpa",
+				"Package Control: Install Package"
+			],
+			[
+				"gitpush",
+				"Git: Push Current Branch"
+			],
+			[
+				"gitsta",
+				"Git: Status"
+			],
+			[
+				"previ",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mrkdp",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pkgl",
+				"Package Control: List Packages"
+			],
+			[
+				"markdownpr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pkgre",
+				"Package Control: Remove Package"
+			],
+			[
+				"json",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"mkdp",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"mkp",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"git p",
+				"Git: Push"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
+				"git c",
+				"Git: Checkout"
+			],
+			[
+				"mp",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"packin",
+				"Package Control: Install Package"
+			],
+			[
+				"npm run test",
+				"npm: Run Tests"
+			],
+			[
+				"pakgins",
+				"Package Control: Install Package"
+			],
+			[
+				"pakgrm",
+				"Package Control: Remove Package"
+			],
+			[
+				"pagins",
+				"Package Control: Install Package"
+			],
+			[
+				"pkins",
+				"Package Control: Install Package"
+			],
+			[
+				"packageins",
+				"Package Control: Install Package"
+			],
+			[
+				"packagerep",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: list",
+				"Package Control: List Packages"
+			],
+			[
+				"pakins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 560.0
+	},
+	"console":
+	{
+		"height": 279.0,
+		"history":
+		[
+			"cmd",
+			"node",
+			"run",
+			"clear",
+			"nodejs",
+			"node"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/e/git/study"
+	],
+	"file_history":
+	[
+		"/D/MyConfiguration/yf28171/AppData/Roaming/Sublime Text 3/Packages/GitStatusBar/GitStatusBar.sublime-settings",
+		"/D/e/git/wxapp-hotel/package-lock.json",
+		"/D/e/git/my/.git/config",
+		"/D/e/git/front-dzs-switch-mapping/pages/region.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/supplier/schema.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/hotel/index.js",
+		"/D/e/git/front-dzs-switch-mapping/components/AreaMappingDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/docs/床型.md",
+		"/D/e/git/front-dzs-switch-mapping/components/RoomMappingDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/tools/constant.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/hotel/index.js",
+		"/D/e/git/front-dzs-switch-mapping/components/HotelSearch.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/hotel/room.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/region.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/hotel/mapped.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/supplier/schema.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/supplier/index.js",
+		"/D/e/git/front-dzs-switch-mapping/static/css/app.css",
+		"/D/e/git/front-dzs-switch-mapping/components/BrandMappingDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/grade.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/dzs/switchmapping/brand.js",
+		"/D/e/git/front-dzs-switch-mapping/tools/api.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/brand.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/hotel/room.js",
+		"/D/e/git/front-dzs-switch-mapping/components/GradeMappingDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/grade.js",
+		"/D/e/git/front-dzs-switch-mapping/tools/util.js",
+		"/D/e/git/front-dzs-switch-mapping/components/HotelMapped.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/hotel/mapped.js",
+		"/D/e/git/front-dzs-switch-mapping/API.md",
+		"/D/e/git/study/lib/README.MD",
+		"/D/e/git/front-dzs-switch-mapping/pages/starrating.js",
+		"/D/e/git/front-dzs-switch-mapping/package.json",
+		"/D/e/git/front-dzs-switch-mapping/components/SimpleMappingDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/static/css/rc-pagination.css",
+		"/D/e/git/front-dzs-switch-mapping/pages/supplier/index.js",
+		"/D/e/git/front-dzs-switch-mapping/static/sound.html",
+		"/D/e/git/study/README.md",
+		"/D/e/git/front-dzs-switch-mapping/static/app.css",
+		"/D/e/git/front-dzs-switch-mapping/pages/index.js",
+		"/D/e/git/front-dzs-switch-mapping/components/SimpleDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/components/SupplierEditDialog.js",
+		"/D/e/git/front-dzs-switch-mapping/build/bundles/pages/hotel/index.js",
+		"/D/MyConfiguration/yf28171/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc",
+		"/D/MyConfiguration/yf28171/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
+		"/D/e/git/study/markdown.syntax.md",
+		"/D/MyConfiguration/yf28171/Dropbox/Notes/99.note",
+		"/D/e/git/front-dzs-switch-mapping/readme.md",
+		"/D/MyConfiguration/yf28171/AppData/Roaming/Sublime Text 3/Packages/JsPrettier/README.md",
+		"/D/e/git/front-dzs-switch-mapping/pages/_document.js",
+		"/D/e/git/front-dzs-switch-mapping/components/AppNavDrawer.js",
+		"/D/e/git/front-dzs-switch-mapping/components/App.js",
+		"/D/e/testnext/node_modules/.bin/next.cmd",
+		"/D/e/git/front-dzs-switch-mapping/node_modules/material-ui/styles/colors.js",
+		"/D/e/git/front-dzs-switch-mapping/pages/mappinglist.js",
+		"/D/e/git/front-dzs-monitor/yarn.lock",
+		"/D/e/git/front-dzs-switch-mapping/.gitignore",
+		"/D/e/git/front-dzs-monitor/api.md",
+		"/D/e/git/front-dzs-switch-mapping/yarn.lock",
+		"/D/e/testnext/node_modules/.bin/next",
+		"/D/e/git/front-dzs-monitor/package.json",
+		"/D/e/git/front-dzs-monitor/README.md",
+		"/D/e/git/front-dzs-monitor/code.md",
+		"/D/e/git/front-dzs-monitor/static/sound.html",
+		"/D/e/git/front-dzs-monitor/env-config.js",
+		"/D/e/git/front-dzs-monitor/next.config.js",
+		"/D/e/git/front-dzs-monitor/node_modules/.bin/next",
+		"/D/e/git/wxapp-hotel/app.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/detail.js",
+		"/D/e/git/study/disignPattern.md",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/book.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/bookSuccess/bookSuccess.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/wxpay.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/list.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/order.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/order.json",
+		"/D/e/git/wxapp-hotel/app.json",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/order.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/book.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/book.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/invoiceDetail/invoiceDetail.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/invoiceDetail/invoiceDetail.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/order/order.wxss",
+		"/D/e/git/wxapp-hotel/package.json",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/requirementFaPiao/requirementFaPiao.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/specialRequirement/specialRequirement.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/blogic.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/common.js",
+		"/D/e/git/wxapp-hotel/page/hotel/components/components.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/tool.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/detail.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/detail.wxss",
+		"/D/e/git/wxapp-hotel/util/util.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/history/history.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/search/event.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/util.js",
+		"/D/e/git/wxapp-hotel/util/common.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/policyfilter.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/home/index.js",
+		"/D/e/git/wxapp-hotel/page/hotel/components/tracer.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/getUserInfo.js",
+		"/D/e/git/wxapp-hotel/page/ghotel/index/index.js",
+		"/D/e/git/wxapp-hotel/page/home/index/index.js",
+		"/D/e/git/wxapp-hotel/app.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/components/wxMessage.js",
+		"/D/e/git/wxapp-hotel/util/eventtracer.js",
+		"/D/e/git/study/lib/style/js.js",
+		"/D/e/git/study/lib/more.js",
+		"/D/e/git/study/lib/tool.js",
+		"/D/e/git/study/components.fen.js",
+		"/D/nginx-1.9.13/html/vr/asset/page.js",
+		"/D/nginx-1.9.13/html/panoramaMarker/asset/vr/main.js",
+		"/D/e/git/panorama-viewer/js/main.js",
+		"/D/e/git/wxapp-hotel/page/hotel/components/common.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/components/components.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/requirementFaPiao/requirementFaPiao.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/list.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/template.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/list.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/bookSuccess/bookSuccess.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/book/requirementFaPiao/requirementFaPiao.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/home/index.wxml",
+		"/D/e/git/wxapp-hotel/page/hotel/views/home/index.wxss",
+		"/D/e/git/wxapp-hotel/page/hotel/views/list/event.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/validate2.js",
+		"/D/e/git/wxapp-hotel/page/hotel/common/md5.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/detail/comment/comment.js",
+		"/D/e/git/wxapp-hotel/page/hotel/views/search/search.js"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"D:\\e\\git\\front-dzs-switch-mapping\\pages\\dzs\\switchmapping",
+			"D:\\e\\git\\front-dzs-switch-mapping\\pages",
+			"D:\\e\\git\\front-dzs-switch-mapping\\components",
+			"D:\\e\\git\\front-dzs-switch-mapping\\pages",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views\\list",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views\\list",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wxapp-hotel\\util",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel\\views",
+			"D:\\e\\git\\wxapp-hotel\\page\\hotel",
+			"D:\\e\\git\\wxapp-hotel\\page",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel\\views",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel\\views",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel\\views",
+			"D:\\e\\git\\front-hotel-h5app\\src\\routes\\Detail\\components",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page",
+			"D:\\e\\git\\wechat-app-tongcheng\\page\\hotel",
+			"D:\\e\\git\\wechat-app-tongcheng\\page",
+			"<project>",
+			"E:\\git\\hotelPrice\\asset",
+			"E:\\git\\hotelPrice",
+			"E:\\git\\node-server\\src",
+			"D:\\nginx-1.9.13\\html\\project_dms\\front-dms\\image-list"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"selIndex",
+			"userInfo",
+			"roomRequestBody",
+			"areaType",
+			"/*",
+			"!this.isEdit && this.switchAreaData.SupplierRegionType !==",
+			"this.setState(newState);",
+			"../tool",
+			"../components/",
+			"getCountryRegions",
+			"resAreaData",
+			"this.loadResRegionData(pid, ",
+			"showMessage",
+			"baseAreaData",
+			"saveMappingRelation",
+			"toggleDialog",
+			"SupplierRegionCode",
+			"SupplierRegionName",
+			"desc = newRoomDataSource.",
+			"areaRequestBody",
+			"loadCountryRegionDataBySId",
+			"selSupplierItem",
+			"getCountryRegions",
+			"evtShowDialog",
+			"hotelMappedDialog",
+			"handleSaveMapped",
+			"dataflag",
+			"showMessage",
+			"hotel",
+			"retn",
+			"rateRequestBody",
+			"areaRequestBody",
+			"brandRequestBody",
+			"hotelRequestBody",
+			"roomRequestBody",
+			">>>>",
+			"RoomMappingDialog",
+			"rateRequestBody",
+			"brand",
+			"brandRequestBody",
+			"flex-end",
+			"switchDataSource",
+			"value={}",
+			"locationInfo",
+			"showDialog",
+			"hotelinfo",
+			"RaisedButton",
+			"FlatButton",
+			"RaisedButton",
+			"DatePicker",
+			"<MenuItem value='' primaryText=\"\" />",
+			"-1",
+			"hotelMatchStat",
+			"locationDisable",
+			"isValidStat",
+			"isvalid",
+			"this.state",
+			"this.state.pagination",
+			"showMesg",
+			"origin",
+			"toggleHotelDataFlag",
+			"valid",
+			"id: ",
+			"a",
+			" tr-nopadding",
+			" hotel-img",
+			"td",
+			"class=\"",
+			"class",
+			"#app-hotel-mapping-list",
+			"#app-hotel-mapping-list ",
+			"tr-width-25",
+			"-30",
+			"https://example.com",
+			"<FlatButton label=\"",
+			"provinceStat",
+			"new Date",
+			"coupon",
+			"billAmount",
+			"167",
+			"initSpecialRequirement",
+			"ptuse",
+			"specialRequirement",
+			"c",
+			"d",
+			"a",
+			"key",
+			"isArray",
+			"isPlainObject",
+			"deep",
+			"source",
+			"target",
+			"console.log",
+			"policyItem",
+			"getPlolicyPayType",
+			"policyItem",
+			"policy_gift",
+			"立即",
+			"roomBreakfast",
+			"roomTypeData",
+			"getData",
+			"hotelDataFull",
+			"match",
+			"roomlist",
+			"^  \\w+\\([\\w\\,\\ ]+\\)",
+			"\\w+\\([\\w\\,\\ ]+\\)",
+			"pageInit",
+			"getData",
+			"getPolicyInfo",
+			"getRoomInfo",
+			"checkPolicyIsGift",
+			"checkPolicyIsConfirm",
+			"checkPolicyIsCanCancel",
+			"checkPolicyIsFull",
+			"roomTypeData",
+			"getRoomInfo",
+			"room_filter_model",
+			"child",
+			"t:",
+			"o:",
+			"v:",
+			"n:",
+			"35.1",
+			"hoteltest",
+			"getPayInfo",
+			"itemText",
+			"single",
+			"mright"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"this.rateRequestBody",
+			"this.areaRequestBody",
+			"this.brandRequestBody",
+			"this.hotelRequestBody",
+			"this.roomRequestBody",
+			"CustomerIdentification",
+			"var",
+			":\\r\\n",
+			":\\n",
+			"\\n",
+			"",
+			".Message, 3e3",
+			"elePolicy",
+			"",
+			"ResourceName",
+			"ResourceProductName",
+			"SelectResourceProductId",
+			"ResourceProductDataFlag",
+			"ResourceProductId",
+			"",
+			"preApi + '",
+			"same-categray-price-setting",
+			"<label>同步<i class=\"help circle icon\"></i></label>",
+			"getOF",
+			"选择<i class=\"help circle icon\">",
+			".2rem",
+			".24rem",
+			"http://img1.40017.cn/cn/sl/zzy_zhuanti/yf2016061301/",
+			"",
+			"http://img1.40017.cn/cn/sl/zzy_zhuanti/yf2016051701/",
+			"res"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "disignPattern.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2438,
+								2438
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PlainNotes/Note.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2090.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "study.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"q",
+				"node-server\\src\\core\\QARank.jsx"
+			],
+			[
+				"",
+				"work\\index.html"
+			],
+			[
+				"51hotel",
+				"51hotelTopic\\index.html"
+			],
+			[
+				"common.main",
+				"ResourcePrice\\asset\\common.main.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"D:\\e\\git\\wechat-app-tongcheng\\wechat-app-tongcheng.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 294.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
