@@ -63,4 +63,5 @@
 - set shiftwidth=4                " Use indents of 4 spaces
 - set expandtab                   " Tabs are spaces, not tabs
 - set tabstop=4                   " An indentation every four columns
-- set softtabstop=4               " Let backspace delete indent
+- set softtabstop=4               " Let backspace delete
+- set nocompitalbe                " No compitable, if the arrow key does not work, be pressed and it would instead by words 'A, B, C, D'
