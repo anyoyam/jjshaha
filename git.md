@@ -468,6 +468,8 @@ Git中有一个名为`HEAD`的特殊指针，用来指向当前所在的本地�
 `git stash pop` 应用最近一条储藏并删除储藏信息
 
 `git grep -n <keyword>` 从工作目录中查找一个字符串或者正则表达式，`-n`找出匹配行行号
+    
+`git format-patch -<n> [hash]` 生成patch文件 `git apply [file.patch]` 应用patch文件
 
 ## git reset与git checkout命令
 
